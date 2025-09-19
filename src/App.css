@@ -413,13 +413,17 @@
   font-size: 1.5rem;
 }
 
+.detail-header-with-actions {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
 .detail-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+  margin-bottom: 1rem;
 }
 
 .detail-header h4 {
@@ -556,6 +560,117 @@
   margin: 0;
 }
 
+/* Edit Mode Styles */
+.detail-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.edit-button {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-button:hover {
+  background: #218838;
+  transform: translateY(-1px);
+}
+
+.edit-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.save-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-button:hover:not(:disabled) {
+  background: #0056b3;
+  transform: translateY(-1px);
+}
+
+.save-button:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.cancel-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cancel-button:hover:not(:disabled) {
+  background: #545b62;
+  transform: translateY(-1px);
+}
+
+.cancel-button:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.edit-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  background: white;
+  transition: border-color 0.3s ease;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.edit-input.small {
+  font-size: 1rem;
+  padding: 0.4rem;
+}
+
+/* Edit mode visual indicators */
+.detail-card:has(.edit-input) {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.info-item:has(.edit-input) {
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 6px;
+  padding: 0.5rem;
+  border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
 .detail-item {
   display: flex;
   justify-content: space-between;
@@ -674,5 +789,23 @@
   .no-selection {
     min-height: 300px;
     padding: 1.5rem;
+  }
+
+  .detail-actions {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+
+  .edit-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .edit-button,
+  .save-button,
+  .cancel-button {
+    width: 100%;
+    padding: 0.75rem;
   }
 }

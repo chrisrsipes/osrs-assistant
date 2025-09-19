@@ -7,6 +7,13 @@ function FarmingInventory() {
   const [selectedSeed, setSelectedSeed] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editForm, setEditForm] = useState({
+    seedCount: 0,
+    yieldCount: 0,
+    averageYieldPerSeed: 1
+  });
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     loadSeeds();
@@ -54,6 +61,51 @@ function FarmingInventory() {
 
   const handleSeedSelect = (seed) => {
     setSelectedSeed(seed);
+    setEditMode(false);
+    // Initialize edit form with current seed data
+    setEditForm({
+      seedCount: seed.seedCount,
+      yieldCount: seed.yieldCount,
+      averageYieldPerSeed: seed.averageYieldPerSeed
+    });
+  };
+
+  const handleEditMode = () => {
+    setEditMode(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditMode(false);
+    // Reset form to current seed data
+    if (selectedSeed) {
+      setEditForm({
+        seedCount: selectedSeed.seedCount,
+        yieldCount: selectedSeed.yieldCount,
+        averageYieldPerSeed: selectedSeed.averageYieldPerSeed
+      });
+    }
+  };
+
+  const handleFormChange = (field, value) => {
+    setEditForm(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSave = async () => {
+    if (!selectedSeed) return;
+
+    try {
+      setSaving(true);
+      await handleSeedUpdate(selectedSeed.id, editForm);
+      setEditMode(false);
+    } catch (error) {
+      console.error('Failed to save seed:', error);
+      // You could add a toast notification here
+    } finally {
+      setSaving(false);
+    }
   };
 
   const getTotalSeeds = () => {
@@ -174,11 +226,35 @@ function FarmingInventory() {
         <div className="details-column">
           {selectedSeed ? (
             <div className="seed-details">
-              <h3>Seed Details</h3>
-              
-              <div className="detail-header">
-                <h4>{selectedSeed.seedName}</h4>
-                <span className="seed-type-badge large">{selectedSeed.seedType}</span>
+              <div className="detail-header-with-actions">
+                <div className="detail-header">
+                  <h4>{selectedSeed.seedName}</h4>
+                  <span className="seed-type-badge large">{selectedSeed.seedType}</span>
+                </div>
+                <div className="detail-actions">
+                  {!editMode ? (
+                    <button onClick={handleEditMode} className="edit-button">
+                      Edit
+                    </button>
+                  ) : (
+                    <div className="edit-actions">
+                      <button 
+                        onClick={handleSave} 
+                        className="save-button"
+                        disabled={saving}
+                      >
+                        {saving ? 'Saving...' : 'Save'}
+                      </button>
+                      <button 
+                        onClick={handleCancelEdit} 
+                        className="cancel-button"
+                        disabled={saving}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="detail-grid">
@@ -189,17 +265,42 @@ function FarmingInventory() {
                 
                 <div className="detail-card">
                   <div className="detail-label">Seed Count</div>
-                  <div className="detail-value seeds">{selectedSeed.seedCount}</div>
+                  {editMode ? (
+                    <input
+                      type="number"
+                      value={editForm.seedCount}
+                      onChange={(e) => handleFormChange('seedCount', parseInt(e.target.value) || 0)}
+                      className="edit-input"
+                      min="0"
+                    />
+                  ) : (
+                    <div className="detail-value seeds">{selectedSeed.seedCount}</div>
+                  )}
                 </div>
                 
                 <div className="detail-card">
                   <div className="detail-label">Yield Count</div>
-                  <div className="detail-value yields">{selectedSeed.yieldCount}</div>
+                  {editMode ? (
+                    <input
+                      type="number"
+                      value={editForm.yieldCount}
+                      onChange={(e) => handleFormChange('yieldCount', parseInt(e.target.value) || 0)}
+                      className="edit-input"
+                      min="0"
+                    />
+                  ) : (
+                    <div className="detail-value yields">{selectedSeed.yieldCount}</div>
+                  )}
                 </div>
                 
                 <div className="detail-card highlight">
                   <div className="detail-label">Expected Yield</div>
-                  <div className="detail-value expected">{selectedSeed.getExpectedYield()}</div>
+                  <div className="detail-value expected">
+                    {editMode ? 
+                      Math.floor(editForm.seedCount * editForm.averageYieldPerSeed) :
+                      selectedSeed.getExpectedYield()
+                    }
+                  </div>
                 </div>
               </div>
 
@@ -210,7 +311,18 @@ function FarmingInventory() {
                 </div>
                 <div className="info-item">
                   <label>Average per Seed:</label>
-                  <span>{selectedSeed.averageYieldPerSeed}</span>
+                  {editMode ? (
+                    <input
+                      type="number"
+                      value={editForm.averageYieldPerSeed}
+                      onChange={(e) => handleFormChange('averageYieldPerSeed', parseFloat(e.target.value) || 1)}
+                      className="edit-input small"
+                      min="0"
+                      step="0.1"
+                    />
+                  ) : (
+                    <span>{selectedSeed.averageYieldPerSeed}</span>
+                  )}
                 </div>
                 <div className="info-item">
                   <label>Seed ID:</label>
@@ -218,10 +330,12 @@ function FarmingInventory() {
                 </div>
               </div>
 
-              <div className="summary-section">
-                <h4>Raw Data</h4>
-                <pre>{JSON.stringify(selectedSeed.getSummary(), null, 2)}</pre>
-              </div>
+              {!editMode && (
+                <div className="summary-section">
+                  <h4>Raw Data</h4>
+                  <pre>{JSON.stringify(selectedSeed.getSummary(), null, 2)}</pre>
+                </div>
+              )}
             </div>
           ) : (
             <div className="no-selection">
