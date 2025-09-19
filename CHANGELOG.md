@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **API Response Debugging** - Console logging for troubleshooting API communication issues
 
 ### Fixed
+- **Farm Run Save Critical Bug** - Fixed "getFarmRunWithSteps is not a function" error in updateFarmRun method
+- **Context Binding Issue** - Resolved `this` context problem in SQLite callback functions
 - **Farm Run Save Validation** - Added checks to ensure farm run exists before attempting to save
 - **Save Button State Management** - Button now properly disables when no farm run is available
 - **API Method Consistency** - Fixed backend method name mismatch (createChangeRecord → addChangeRecord)

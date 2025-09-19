@@ -46,11 +46,16 @@ function AddFarmRun() {
   };
 
   useEffect(() => {
-    loadInitialData();
-    createFarmRun();
-    // Initialize step times with current time
-    setStepStart(getCurrentDateTime());
-    setStepEnd(getCurrentDateTime());
+    const initializePage = async () => {
+      await loadInitialData();
+      await createFarmRun();
+      // Initialize step times with current time
+      setStepStart(getCurrentDateTime());
+      setStepEnd(getCurrentDateTime());
+    };
+    
+    initializePage();
+    
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -92,9 +97,16 @@ function AddFarmRun() {
       console.log('Farm run data:', farmRunData);
       const response = await apiService.farmRuns.create(farmRunData);
       console.log('Farm run created:', response);
-      setFarmRun(response);
+      
+      if (response && response.id) {
+        setFarmRun(response);
+        console.log('Farm run state set:', response);
+      } else {
+        console.error('Invalid farm run response:', response);
+        setError('Invalid farm run response from server');
+      }
     } catch (err) {
-      setError('Failed to create farm run');
+      setError('Failed to create farm run: ' + err.message);
       console.error('Error creating farm run:', err);
     }
   };
@@ -334,7 +346,7 @@ function AddFarmRun() {
         )}
         {(!farmRun || !farmRun.id) && (
           <p style={{color: 'orange', fontSize: '0.9rem'}}>
-            ⏳ Creating farm run...
+            ⏳ Creating farm run... {loading && '(Please wait)'}
           </p>
         )}
       </div>

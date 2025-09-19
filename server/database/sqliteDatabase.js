@@ -573,6 +573,7 @@ class SQLiteDatabase {
         WHERE id = ?
       `;
 
+      const self = this;
       this.db.run(query, [
         updateData.start,
         updateData.end,
@@ -590,7 +591,7 @@ class SQLiteDatabase {
         }
 
         // Return updated farm run
-        this.getFarmRunWithSteps(farmRunId)
+        self.getFarmRunWithSteps(farmRunId)
           .then(resolve)
           .catch(reject);
       });
