@@ -19,6 +19,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Route-Based Tabs** - Converted state-based tabs to proper routes with browser history support
 - **URL Navigation** - Users can now bookmark and share direct links to specific tabs
 - **Browser Integration** - Back/forward buttons work correctly with tab navigation
+- **SQLite Database** - Replaced in-memory database with persistent SQLite storage
+- **Database Migration System** - Automated database setup and seeding scripts
+- **Sidebar Navigation** - Converted top navigation to modern left-hand sidebar
+- **Farming Sub-Navigation** - Added horizontal sub-navigation for farming features
+- **Activity Dashboard** - New activity log component showing all farming changes
+- **Farming Page Structure** - Organized farming features into dedicated sub-pages
 
 ### Changed
 - **Database Architecture** - Migrated from static counts to change record-based calculation
@@ -28,6 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Navigation System** - Replaced state management with React Router for better UX
 - **Tab Architecture** - Migrated from useState to URL-based tab switching
 - **Default Route** - Root path now redirects to Hello World tab by default
+- **Farming Tab Name** - Changed "Farming Inventory" to "Farming" for broader scope
+- **Navigation Layout** - Converted top tabs to left sidebar with modern design
+- **Farming Default View** - Activity log now shows by default instead of inventory
+- **Database Storage** - All data now persists between server restarts
 
 ### Technical Improvements
 - **Change Record API** - New endpoints for inventory change management:
@@ -42,9 +52,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Link Components** - Replaced button clicks with proper Link navigation
 - **Route Configuration** - Set up dedicated routes for each tab:
   - `/hello` - Hello World tab
-  - `/farming` - Farming Inventory tab
+  - `/farming` - Farming tab with sub-navigation
   - `/coming-soon` - Coming Soon tab
 - **Active State Management** - Dynamic tab highlighting based on current route
+- **SQLite Integration** - Added sqlite3 dependency and database layer
+- **Migration Scripts** - Automated database setup with `npm run db:migrate`
+- **Data Persistence** - All changes now saved to SQLite database file
+- **Farming Sub-Routes** - Nested routing for farming features:
+  - `/farming/activity` - Activity dashboard (default)
+  - `/farming/inventory` - Inventory management
+  - `/farming/planning` - Planning tools (coming soon)
+  - `/farming/progress` - Progress tracking (coming soon)
+  - `/farming/guides` - Farming guides (coming soon)
+- **Responsive Design** - Mobile-optimized sidebar and navigation
 
 ## [0.5.0] - 2024-01-XX
 

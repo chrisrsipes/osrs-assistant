@@ -1,0 +1,82 @@
+[
+  {
+    "seedName": "Spirit Seed",
+    "seedCount": 3,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Celastrus Seed",
+    "seedCount": 9,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Magic Seed",
+    "seedCount": 20,
+    "yieldCount": 23
+  },
+  {
+    "seedName": "Yew Seed",
+    "seedCount": 15,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Watermelon Seed",
+    "seedCount": 183,
+    "yieldCount": 4917
+  },
+  {
+    "seedName": "Snape Grass Seed",
+    "seedCount": 505,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Tarromin Seed",
+    "seedCount": 0,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Harralander Seed",
+    "seedCount": 33,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Ranarr Seed",
+    "seedCount": 2,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Irit Seed",
+    "seedCount": 360,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Kwuarm Seed",
+    "seedCount": 0,
+    "yieldCount": 416
+  },
+  {
+    "seedName": "Cadantine Seed",
+    "seedCount": 10,
+    "yieldCount": 1361
+  },
+  {
+    "seedName": "Snapdragon Seed",
+    "seedCount": 41,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Lantadyme Seed",
+    "seedCount": 195,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Dwarf Weed Seed",
+    "seedCount": 204,
+    "yieldCount": 0
+  },
+  {
+    "seedName": "Torstol Seed",
+    "seedCount": 1,
+    "yieldCount": 643
+  }
+]

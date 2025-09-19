@@ -1,0 +1,114 @@
+[
+  {
+    "seedName": "Spirit Seed",
+    "yieldName": "Spirit Tree",
+    "seedType": "Special",
+    "requiredFarmingLevel": 83,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Celastrus Seed",
+    "yieldName": "Celastrus Bark",
+    "seedType": "Special",
+    "requiredFarmingLevel": 85,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Magic Seed",
+    "yieldName": "Magic Root",
+    "seedType": "Tree",
+    "requiredFarmingLevel": 75,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Yew Seed",
+    "yieldName": "Yew Root",
+    "seedType": "Tree",
+    "requiredFarmingLevel": 60,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Watermelon Seed",
+    "yieldName": "Watermelon",
+    "seedType": "Allotment",
+    "requiredFarmingLevel": 47,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Snape Grass Seed",
+    "yieldName": "Snape Grass",
+    "seedType": "Allotment",
+    "requiredFarmingLevel": 61,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Tarromin Seed",
+    "yieldName": "Tarromin",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 19,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Harralander Seed",
+    "yieldName": "Harralander",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 26,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Ranarr Seed",
+    "yieldName": "Ranarr",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 32,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Irit Seed",
+    "yieldName": "Irit",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 40,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Kwuarm Seed",
+    "yieldName": "Kwuarm",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 56,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Cadantine Seed",
+    "yieldName": "Cadantine",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 67,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Snapdragon Seed",
+    "yieldName": "Snapdragon",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 62,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Lantadyme Seed",
+    "yieldName": "Lantadyme",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 73,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Dwarf Weed Seed",
+    "yieldName": "Dwarf Weed",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 79,
+    "averageYieldPerSeed": 1
+  },
+  {
+    "seedName": "Torstol Seed",
+    "yieldName": "Torstol",
+    "seedType": "Herb",
+    "requiredFarmingLevel": 85,
+    "averageYieldPerSeed": 1
+  }
+]

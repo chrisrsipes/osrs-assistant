@@ -1,0 +1,215 @@
+/* Activity Container */
+.activity-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.activity-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.activity-header h3 {
+  color: #667eea;
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.activity-header p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+}
+
+.activity-stats {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.stat-item {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: #667eea;
+  font-size: 0.9rem;
+}
+
+/* Activity List */
+.activity-list {
+  max-height: 600px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.activity-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  margin-top: 0.25rem;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-header-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.activity-header-item h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.change-type {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.activity-details {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.change-details {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.change-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.change-item strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.activity-notes {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin: 0.75rem 0;
+  font-style: italic;
+}
+
+.activity-notes strong {
+  color: #333;
+  font-weight: 600;
+}
+
+.activity-date {
+  color: #999;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+/* No Activity State */
+.no-activity {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #666;
+}
+
+.no-activity-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-activity h4 {
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.no-activity p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 8px;
+  margin: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .activity-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .activity-header p {
+    font-size: 1rem;
+  }
+  
+  .activity-stats {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .activity-item {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .activity-header-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .change-details {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .activity-list {
+    max-height: 500px;
+  }
+}
