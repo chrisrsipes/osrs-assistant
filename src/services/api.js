@@ -79,6 +79,44 @@ class ApiService {
           method: 'POST',
         });
       },
+
+      // Get change records for a specific seed
+      getChangeRecords: async (seedId) => {
+        return this.request(`/seeds/${seedId}/changes`);
+      },
+
+      // Get all change records
+      getAllChangeRecords: async () => {
+        return this.request('/seeds/changes/all');
+      },
+
+      // Create reconciliation change record
+      reconcile: async (seedId, seedCountChange, yieldCountChange, notes = '') => {
+        return this.request(`/seeds/${seedId}/reconcile`, {
+          method: 'POST',
+          body: JSON.stringify({
+            seedId: parseInt(seedId),
+            changeType: 'reconciliation',
+            seedCountChange,
+            yieldCountChange,
+            notes
+          }),
+        });
+      },
+
+      // Create increment change record
+      increment: async (seedId, seedCountChange, yieldCountChange, notes = '') => {
+        return this.request(`/seeds/${seedId}/increment`, {
+          method: 'POST',
+          body: JSON.stringify({
+            seedId: parseInt(seedId),
+            changeType: 'increment',
+            seedCountChange,
+            yieldCountChange,
+            notes
+          }),
+        });
+      },
     };
 
     // Health check

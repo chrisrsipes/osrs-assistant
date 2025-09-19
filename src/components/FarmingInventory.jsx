@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import Seed from '../models/Seed';
 import apiService from '../services/api';
+import InventoryChangeModal from './InventoryChangeModal';
+import ActivityLog from './ActivityLog';
 
 function FarmingInventory() {
   const [seeds, setSeeds] = useState([]);
   const [selectedSeed, setSelectedSeed] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editMode, setEditMode] = useState(false);
-  const [editForm, setEditForm] = useState({
-    seedCount: 0,
-    yieldCount: 0,
-    averageYieldPerSeed: 1
-  });
-  const [saving, setSaving] = useState(false);
+
+  const [showChangeModal, setShowChangeModal] = useState(false);
+  const [showActivityLog, setShowActivityLog] = useState(false);
 
   useEffect(() => {
     loadSeeds();
@@ -61,51 +59,27 @@ function FarmingInventory() {
 
   const handleSeedSelect = (seed) => {
     setSelectedSeed(seed);
-    setEditMode(false);
-    // Initialize edit form with current seed data
-    setEditForm({
-      seedCount: seed.seedCount,
-      yieldCount: seed.yieldCount,
-      averageYieldPerSeed: seed.averageYieldPerSeed
-    });
+    setShowActivityLog(false);
   };
 
-  const handleEditMode = () => {
-    setEditMode(true);
+  const handleChangeInventory = () => {
+    setShowChangeModal(true);
   };
 
-  const handleCancelEdit = () => {
-    setEditMode(false);
-    // Reset form to current seed data
+  const handleChangeSuccess = () => {
+    // Reload seeds to get updated counts
+    loadSeeds();
+    // Update selected seed if it's still selected
     if (selectedSeed) {
-      setEditForm({
-        seedCount: selectedSeed.seedCount,
-        yieldCount: selectedSeed.yieldCount,
-        averageYieldPerSeed: selectedSeed.averageYieldPerSeed
-      });
+      const updatedSeed = seeds.find(s => s.id === selectedSeed.id);
+      if (updatedSeed) {
+        setSelectedSeed(updatedSeed);
+      }
     }
   };
 
-  const handleFormChange = (field, value) => {
-    setEditForm(prev => ({
-      ...prev,
-      [field]: value
-    }));
-  };
-
-  const handleSave = async () => {
-    if (!selectedSeed) return;
-
-    try {
-      setSaving(true);
-      await handleSeedUpdate(selectedSeed.id, editForm);
-      setEditMode(false);
-    } catch (error) {
-      console.error('Failed to save seed:', error);
-      // You could add a toast notification here
-    } finally {
-      setSaving(false);
-    }
+  const handleShowActivityLog = () => {
+    setShowActivityLog(!showActivityLog);
   };
 
   const getTotalSeeds = () => {
@@ -232,28 +206,15 @@ function FarmingInventory() {
                   <span className="seed-type-badge large">{selectedSeed.seedType}</span>
                 </div>
                 <div className="detail-actions">
-                  {!editMode ? (
-                    <button onClick={handleEditMode} className="edit-button">
-                      Edit
-                    </button>
-                  ) : (
-                    <div className="edit-actions">
-                      <button 
-                        onClick={handleSave} 
-                        className="save-button"
-                        disabled={saving}
-                      >
-                        {saving ? 'Saving...' : 'Save'}
-                      </button>
-                      <button 
-                        onClick={handleCancelEdit} 
-                        className="cancel-button"
-                        disabled={saving}
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  )}
+                  <button onClick={handleChangeInventory} className="change-button">
+                    📝 Update Inventory
+                  </button>
+                  <button 
+                    onClick={handleShowActivityLog} 
+                    className={`activity-button ${showActivityLog ? 'active' : ''}`}
+                  >
+                    📊 {showActivityLog ? 'Hide' : 'Show'} Activity
+                  </button>
                 </div>
               </div>
 
@@ -264,42 +225,19 @@ function FarmingInventory() {
                 </div>
                 
                 <div className="detail-card">
-                  <div className="detail-label">Seed Count</div>
-                  {editMode ? (
-                    <input
-                      type="number"
-                      value={editForm.seedCount}
-                      onChange={(e) => handleFormChange('seedCount', parseInt(e.target.value) || 0)}
-                      className="edit-input"
-                      min="0"
-                    />
-                  ) : (
-                    <div className="detail-value seeds">{selectedSeed.seedCount}</div>
-                  )}
+                  <div className="detail-label">Current Seed Count</div>
+                  <div className="detail-value seeds">{selectedSeed.seedCount}</div>
                 </div>
                 
                 <div className="detail-card">
-                  <div className="detail-label">Yield Count</div>
-                  {editMode ? (
-                    <input
-                      type="number"
-                      value={editForm.yieldCount}
-                      onChange={(e) => handleFormChange('yieldCount', parseInt(e.target.value) || 0)}
-                      className="edit-input"
-                      min="0"
-                    />
-                  ) : (
-                    <div className="detail-value yields">{selectedSeed.yieldCount}</div>
-                  )}
+                  <div className="detail-label">Current Yield Count</div>
+                  <div className="detail-value yields">{selectedSeed.yieldCount}</div>
                 </div>
                 
                 <div className="detail-card highlight">
                   <div className="detail-label">Expected Yield</div>
                   <div className="detail-value expected">
-                    {editMode ? 
-                      Math.floor(editForm.seedCount * editForm.averageYieldPerSeed) :
-                      selectedSeed.getExpectedYield()
-                    }
+                    {selectedSeed.getExpectedYield()}
                   </div>
                 </div>
               </div>
@@ -311,18 +249,7 @@ function FarmingInventory() {
                 </div>
                 <div className="info-item">
                   <label>Average per Seed:</label>
-                  {editMode ? (
-                    <input
-                      type="number"
-                      value={editForm.averageYieldPerSeed}
-                      onChange={(e) => handleFormChange('averageYieldPerSeed', parseFloat(e.target.value) || 1)}
-                      className="edit-input small"
-                      min="0"
-                      step="0.1"
-                    />
-                  ) : (
-                    <span>{selectedSeed.averageYieldPerSeed}</span>
-                  )}
+                  <span>{selectedSeed.averageYieldPerSeed}</span>
                 </div>
                 <div className="info-item">
                   <label>Seed ID:</label>
@@ -330,11 +257,11 @@ function FarmingInventory() {
                 </div>
               </div>
 
-              {!editMode && (
-                <div className="summary-section">
-                  <h4>Raw Data</h4>
-                  <pre>{JSON.stringify(selectedSeed.getSummary(), null, 2)}</pre>
-                </div>
+              {showActivityLog && (
+                <ActivityLog 
+                  seedId={selectedSeed.id} 
+                  seedName={selectedSeed.seedName}
+                />
               )}
             </div>
           ) : (
@@ -346,6 +273,16 @@ function FarmingInventory() {
           )}
         </div>
       </div>
+
+      {/* Inventory Change Modal */}
+      {selectedSeed && (
+        <InventoryChangeModal
+          seed={selectedSeed}
+          isOpen={showChangeModal}
+          onClose={() => setShowChangeModal(false)}
+          onSuccess={handleChangeSuccess}
+        />
+      )}
     </div>
   );
 }

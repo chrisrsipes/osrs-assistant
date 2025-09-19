@@ -8,17 +8,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Activity Log System** - Complete inventory change tracking with audit trails
+- **SeedChangeRecord Model** - New data model for tracking inventory changes with timestamps
+- **Change Management UI** - Modal interface for recording inventory changes with validation
+- **Real-time Preview** - Live calculation showing current → new values before submission
+- **Inventory Validation** - Prevents negative inventory values with clear error messages
+- **Sign Selection UI** - Dropdown selectors for +/- instead of manual input
+- **Activity History Display** - Component to view change history with timestamps and notes
 - **Deep Link Support** - Implemented React Router for URL-based navigation and bookmarking
 - **Route-Based Tabs** - Converted state-based tabs to proper routes with browser history support
 - **URL Navigation** - Users can now bookmark and share direct links to specific tabs
 - **Browser Integration** - Back/forward buttons work correctly with tab navigation
 
 ### Changed
+- **Database Architecture** - Migrated from static counts to change record-based calculation
+- **Inventory Management** - Replaced direct editing with change tracking system
+- **UI Components** - Updated FarmingInventory with new change management interface
+- **API Endpoints** - Added new endpoints for reconciliation and increment operations
 - **Navigation System** - Replaced state management with React Router for better UX
 - **Tab Architecture** - Migrated from useState to URL-based tab switching
 - **Default Route** - Root path now redirects to Hello World tab by default
 
 ### Technical Improvements
+- **Change Record API** - New endpoints for inventory change management:
+  - `GET /api/seeds/:id/changes` - Get change history for specific seed
+  - `GET /api/seeds/changes/all` - Get all change records
+  - `POST /api/seeds/:id/reconcile` - Create reconciliation change record
+  - `POST /api/seeds/:id/increment` - Create increment change record
+- **Database Schema** - Updated to use change records instead of static counts
+- **Validation Logic** - Client and server-side validation for inventory changes
+- **UI/UX Enhancements** - Improved modal design with real-time feedback
 - **React Router DOM** - Added client-side routing with BrowserRouter
 - **Link Components** - Replaced button clicks with proper Link navigation
 - **Route Configuration** - Set up dedicated routes for each tab:

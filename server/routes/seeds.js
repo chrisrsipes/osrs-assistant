@@ -179,4 +179,149 @@ router.post('/reset', (req, res) => {
   }
 });
 
+// Validation middleware for change records
+const validateChangeRecord = (req, res, next) => {
+  const { seedId, changeType, seedCountChange, yieldCountChange } = req.body;
+  
+  if (!seedId || typeof seedId !== 'number') {
+    return res.status(400).json({ error: 'seedId is required and must be a number' });
+  }
+  
+  if (!changeType || !['reconciliation', 'increment'].includes(changeType)) {
+    return res.status(400).json({ error: 'changeType is required and must be "reconciliation" or "increment"' });
+  }
+  
+  if (seedCountChange === undefined || typeof seedCountChange !== 'number') {
+    return res.status(400).json({ error: 'seedCountChange is required and must be a number' });
+  }
+  
+  if (yieldCountChange === undefined || typeof yieldCountChange !== 'number') {
+    return res.status(400).json({ error: 'yieldCountChange is required and must be a number' });
+  }
+  
+  next();
+};
+
+// GET /api/seeds/:id/changes - Get change records for a specific seed
+router.get('/:id/changes', (req, res) => {
+  try {
+    const changeRecords = seedDatabase.getChangeRecords(req.params.id);
+    res.json({
+      success: true,
+      data: changeRecords,
+      count: changeRecords.length
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to retrieve change records',
+      message: error.message 
+    });
+  }
+});
+
+// GET /api/seeds/changes/all - Get all change records
+router.get('/changes/all', (req, res) => {
+  try {
+    const changeRecords = seedDatabase.getAllChangeRecords();
+    res.json({
+      success: true,
+      data: changeRecords,
+      count: changeRecords.length
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to retrieve change records',
+      message: error.message 
+    });
+  }
+});
+
+// POST /api/seeds/:id/reconcile - Create reconciliation change record
+router.post('/:id/reconcile', validateChangeRecord, (req, res) => {
+  try {
+    const seedId = parseInt(req.params.id);
+    const { seedCountChange, yieldCountChange, notes } = req.body;
+    
+    // Verify seed exists
+    const seed = seedDatabase.getById(seedId);
+    if (!seed) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'Seed not found' 
+      });
+    }
+    
+    const changeRecord = seedDatabase.addChangeRecord({
+      seedId,
+      changeType: 'reconciliation',
+      seedCountChange,
+      yieldCountChange,
+      notes: notes || 'Inventory reconciliation'
+    });
+    
+    // Get updated seed with new counts
+    const updatedSeed = seedDatabase.getById(seedId);
+    
+    res.status(201).json({
+      success: true,
+      data: {
+        changeRecord,
+        updatedSeed
+      },
+      message: 'Reconciliation recorded successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to record reconciliation',
+      message: error.message 
+    });
+  }
+});
+
+// POST /api/seeds/:id/increment - Create increment change record
+router.post('/:id/increment', validateChangeRecord, (req, res) => {
+  try {
+    const seedId = parseInt(req.params.id);
+    const { seedCountChange, yieldCountChange, notes } = req.body;
+    
+    // Verify seed exists
+    const seed = seedDatabase.getById(seedId);
+    if (!seed) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'Seed not found' 
+      });
+    }
+    
+    const changeRecord = seedDatabase.addChangeRecord({
+      seedId,
+      changeType: 'increment',
+      seedCountChange,
+      yieldCountChange,
+      notes: notes || 'Inventory increment'
+    });
+    
+    // Get updated seed with new counts
+    const updatedSeed = seedDatabase.getById(seedId);
+    
+    res.status(201).json({
+      success: true,
+      data: {
+        changeRecord,
+        updatedSeed
+      },
+      message: 'Increment recorded successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to record increment',
+      message: error.message 
+    });
+  }
+});
+
 module.exports = router;

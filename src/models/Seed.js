@@ -11,8 +11,7 @@ class Seed {
      * @param {string} seedData.yieldName - Name of the yield/produce (required)
      * @param {string} seedData.seedType - Type/category of the seed (required)
      * @param {number} seedData.requiredFarmingLevel - Required farming level to plant (required)
-     * @param {number} seedData.seedCount - Number of seeds in inventory (required, default = 0)
-     * @param {number} seedData.yieldCount - Number of yields in inventory (required, default = 0)
+     * Note: seedCount and yieldCount are now calculated from change records
      * @param {number} seedData.averageYieldPerSeed - Average yield per seed planted (required, default = 1)
      */
     constructor(seedData) {
@@ -35,15 +34,23 @@ class Seed {
         this.yieldName = seedData.yieldName;
         this.seedType = seedData.seedType;
         this.requiredFarmingLevel = seedData.requiredFarmingLevel !== undefined ? seedData.requiredFarmingLevel : 1;
+        this.averageYieldPerSeed = seedData.averageYieldPerSeed !== undefined ? seedData.averageYieldPerSeed : 1;
+        
+        // These are now calculated from change records, not stored directly
         this.seedCount = seedData.seedCount !== undefined ? seedData.seedCount : 0;
         this.yieldCount = seedData.yieldCount !== undefined ? seedData.yieldCount : 0;
-        this.averageYieldPerSeed = seedData.averageYieldPerSeed !== undefined ? seedData.averageYieldPerSeed : 1;
 
         // Validate numeric fields
         this._validateNumericField('requiredFarmingLevel', this.requiredFarmingLevel);
-        this._validateNumericField('seedCount', this.seedCount);
-        this._validateNumericField('yieldCount', this.yieldCount);
         this._validateNumericField('averageYieldPerSeed', this.averageYieldPerSeed);
+        
+        // Validate count fields if provided (for backward compatibility)
+        if (seedData.seedCount !== undefined) {
+            this._validateNumericField('seedCount', this.seedCount);
+        }
+        if (seedData.yieldCount !== undefined) {
+            this._validateNumericField('yieldCount', this.yieldCount);
+        }
     }
 
     /**
@@ -59,7 +66,8 @@ class Seed {
     }
 
     /**
-     * Updates the seed count
+     * Updates the seed count (for display purposes only)
+     * Note: In the new architecture, counts are calculated from change records
      * @param {number} newCount - New seed count
      */
     setSeedCount(newCount) {
@@ -68,7 +76,8 @@ class Seed {
     }
 
     /**
-     * Updates the yield count
+     * Updates the yield count (for display purposes only)
+     * Note: In the new architecture, counts are calculated from change records
      * @param {number} newCount - New yield count
      */
     setYieldCount(newCount) {
