@@ -306,8 +306,15 @@
   padding: 2rem;
 }
 
-.form-group {
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
   margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 0;
 }
 
 .form-group label {
@@ -333,6 +340,13 @@
   outline: none;
   border-color: #1976d2;
   box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.form-group select:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .modal-footer {
@@ -361,6 +375,29 @@
 }
 
 .submit-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.reset-button {
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.reset-button:hover:not(:disabled) {
+  background: #5a6268;
+  transform: translateY(-1px);
+}
+
+.reset-button:disabled {
   background: #ccc;
   cursor: not-allowed;
   transform: none;
@@ -402,6 +439,12 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .form-row:first-child {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 @media (max-width: 768px) {
   .add-farm-run-page {
     padding: 1rem;
@@ -449,5 +492,14 @@
   .modal-footer {
     padding: 1rem;
     flex-direction: column;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  
+  .form-row:first-child {
+    grid-template-columns: 1fr;
   }
 }

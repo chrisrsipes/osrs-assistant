@@ -24,14 +24,33 @@ function AddFarmRun() {
   const [patches, setPatches] = useState([]);
   const [seeds, setSeeds] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedPatchType, setSelectedPatchType] = useState('');
+  const [selectedPatchDiscriminator, setSelectedPatchDiscriminator] = useState('');
   const [selectedPatch, setSelectedPatch] = useState('');
   const [selectedSeed, setSelectedSeed] = useState('');
   const [action, setAction] = useState('plant');
   const [amount, setAmount] = useState('');
+  const [stepStart, setStepStart] = useState('');
+  const [stepEnd, setStepEnd] = useState('');
+  const [stepNotes, setStepNotes] = useState('');
+
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    // Format as YYYY-MM-DDTHH:MM for datetime-local input
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+  };
 
   useEffect(() => {
     loadInitialData();
     createFarmRun();
+    // Initialize step times with current time
+    setStepStart(getCurrentDateTime());
+    setStepEnd(getCurrentDateTime());
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -63,14 +82,17 @@ function AddFarmRun() {
 
   const createFarmRun = async () => {
     try {
+      console.log('Creating farm run...');
       const now = new Date().toISOString();
       const farmRunData = {
         start: now,
         tags: ['manual']
       };
       
+      console.log('Farm run data:', farmRunData);
       const response = await apiService.farmRuns.create(farmRunData);
-      setFarmRun(response.data);
+      console.log('Farm run created:', response);
+      setFarmRun(response);
     } catch (err) {
       setError('Failed to create farm run');
       console.error('Error creating farm run:', err);
@@ -115,21 +137,51 @@ function AddFarmRun() {
 
   const handleLocationChange = (location) => {
     setSelectedLocation(location);
+    setSelectedPatchType('');
+    setSelectedPatchDiscriminator('');
     setSelectedPatch('');
   };
 
-  const handlePatchChange = (patchId) => {
-    setSelectedPatch(patchId);
-    // Auto-select location based on patch
-    const patch = patches.find(p => p.id === parseInt(patchId));
+  const handlePatchTypeChange = (patchType) => {
+    setSelectedPatchType(patchType);
+    setSelectedPatchDiscriminator('');
+    setSelectedPatch('');
+  };
+
+  const handlePatchDiscriminatorChange = (discriminator) => {
+    setSelectedPatchDiscriminator(discriminator);
+    // Find the patch that matches location, type, and discriminator
+    const patch = patches.find(p => 
+      p.location === selectedLocation && 
+      p.patchType === selectedPatchType && 
+      p.patchDiscriminator === discriminator
+    );
     if (patch) {
-      setSelectedLocation(patch.location);
+      setSelectedPatch(patch.id.toString());
     }
   };
 
+  const resetStepForm = () => {
+    setSelectedLocation('');
+    setSelectedPatchType('');
+    setSelectedPatchDiscriminator('');
+    setSelectedPatch('');
+    setSelectedSeed('');
+    setAction('plant');
+    setAmount('');
+    setStepStart(getCurrentDateTime());
+    setStepEnd(getCurrentDateTime());
+    setStepNotes('');
+  };
+
   const handleAddStep = async () => {
-    if (!selectedPatch || !selectedSeed || !amount) {
+    if (!selectedLocation || !selectedPatchType || !selectedPatchDiscriminator || !selectedPatch || !selectedSeed || !amount) {
       setError('Please fill in all required fields');
+      return;
+    }
+
+    if (!farmRun || !farmRun.id) {
+      setError('Farm run not created yet. Please wait and try again.');
       return;
     }
 
@@ -142,35 +194,34 @@ function AddFarmRun() {
         changeType: action === 'plant' ? 'increment' : 'increment',
         seedCountChange: action === 'plant' ? -parseInt(amount) : 0,
         yieldCountChange: action === 'harvest' ? parseInt(amount) : 0,
-        notes: `Farm run step: ${action} ${amount} ${seeds.find(s => s.id === parseInt(selectedSeed))?.seedName || 'seeds'}`
+        notes: stepNotes || `Farm run step: ${action} ${amount} ${seeds.find(s => s.id === parseInt(selectedSeed))?.seedName || 'seeds'}`
       };
 
       const changeRecordResponse = await apiService.seeds.createChangeRecord(seedChangeData);
       
-      // Create farm run step
+      // Create farm run step with proper timestamps
       const stepData = {
         farmRunId: farmRun.id,
         patchId: parseInt(selectedPatch),
-        seedChangeRecordId: changeRecordResponse.data.id,
-        start: new Date().toISOString()
+        seedChangeRecordId: changeRecordResponse.data.changeRecord.id,
+        start: stepStart || new Date().toISOString(),
+        end: stepEnd || null
       };
 
       const stepResponse = await apiService.farmRuns.createStep(farmRun.id, stepData);
       
       // Add to local state with additional data for display
       const stepWithData = {
-        ...stepResponse.data,
+        ...stepResponse,
         action,
         amount: parseInt(amount),
-        seedId: parseInt(selectedSeed)
+        seedId: parseInt(selectedSeed),
+        notes: stepNotes
       };
       setFarmRunSteps(prev => [...prev, stepWithData]);
       
-      // Reset form
-      setSelectedLocation('');
-      setSelectedPatch('');
-      setSelectedSeed('');
-      setAmount('');
+      // Reset form and close modal
+      resetStepForm();
       setShowAddStepModal(false);
       
     } catch (err) {
@@ -185,11 +236,19 @@ function AddFarmRun() {
     try {
       setLoading(true);
       
+      if (!farmRun || !farmRun.id) {
+        setError('Farm run not found. Cannot save.');
+        return;
+      }
+      
       const endTime = new Date().toISOString();
       const updateData = {
         end: endTime,
         tags: ['completed']
       };
+      
+      console.log('Updating farm run with ID:', farmRun.id);
+      console.log('Update data:', updateData);
       
       await apiService.farmRuns.update(farmRun.id, updateData);
       
@@ -234,11 +293,22 @@ function AddFarmRun() {
     return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${ms.toString().padStart(2, '0')}`;
   };
 
-  const getFilteredPatches = () => {
+  const getFilteredPatchTypes = () => {
     if (selectedLocation) {
-      return patches.filter(patch => patch.location === selectedLocation);
+      const locationPatches = patches.filter(patch => patch.location === selectedLocation);
+      return [...new Set(locationPatches.map(patch => patch.patchType))];
     }
-    return patches;
+    return [];
+  };
+
+  const getFilteredPatchDiscriminators = () => {
+    if (selectedLocation && selectedPatchType) {
+      const typePatches = patches.filter(patch => 
+        patch.location === selectedLocation && patch.patchType === selectedPatchType
+      );
+      return [...new Set(typePatches.map(patch => patch.patchDiscriminator))];
+    }
+    return [];
   };
 
   if (loading && !farmRun) {
@@ -257,6 +327,16 @@ function AddFarmRun() {
       <div className="add-farm-run-header">
         <h2>Add New Farm Run</h2>
         <p>Track your farming session with stopwatch and manage farm run steps</p>
+        {farmRun && farmRun.id && (
+          <p style={{color: 'green', fontSize: '0.9rem'}}>
+            ✅ Farm Run ID: {farmRun.id} - Ready to add steps
+          </p>
+        )}
+        {(!farmRun || !farmRun.id) && (
+          <p style={{color: 'orange', fontSize: '0.9rem'}}>
+            ⏳ Creating farm run...
+          </p>
+        )}
       </div>
 
       {/* Stopwatch Section - 2 Components */}
@@ -288,7 +368,13 @@ function AddFarmRun() {
       <div className="add-step-section">
         <button 
           className="add-step-button"
-          onClick={() => setShowAddStepModal(true)}
+          onClick={() => {
+            // Set fresh current times when opening modal
+            const currentTime = getCurrentDateTime();
+            setStepStart(currentTime);
+            setStepEnd(currentTime);
+            setShowAddStepModal(true);
+          }}
           disabled={!farmRun}
         >
           ➕ Add Farm Run Step
@@ -312,7 +398,9 @@ function AddFarmRun() {
                   <th>Seed</th>
                   <th>Action</th>
                   <th>Amount</th>
-                  <th>Time</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody>
@@ -326,7 +414,9 @@ function AddFarmRun() {
                       <td>{seed?.seedName || 'Unknown'}</td>
                       <td>{step.action || 'N/A'}</td>
                       <td>{step.amount || 'N/A'}</td>
-                      <td>{step.start ? new Date(step.start).toLocaleTimeString() : 'N/A'}</td>
+                      <td>{step.start ? new Date(step.start).toLocaleString() : 'N/A'}</td>
+                      <td>{step.end ? new Date(step.end).toLocaleString() : 'N/A'}</td>
+                      <td>{step.notes || 'N/A'}</td>
                     </tr>
                   );
                 })}
@@ -341,9 +431,9 @@ function AddFarmRun() {
         <button 
           className="save-farm-run-button"
           onClick={handleSaveFarmRun}
-          disabled={loading}
+          disabled={loading || !farmRun || !farmRun.id}
         >
-          💾 Save Farm Run
+          💾 Save Farm Run {!farmRun || !farmRun.id ? '(No Farm Run)' : ''}
         </button>
         
         <button 
@@ -369,65 +459,122 @@ function AddFarmRun() {
             </div>
             
             <div className="modal-body">
-              <div className="form-group">
-                <label>Location:</label>
-                <select 
-                  value={selectedLocation}
-                  onChange={(e) => handleLocationChange(e.target.value)}
-                >
-                  <option value="">Select Location</option>
-                  {locations.map(location => (
-                    <option key={location} value={location}>{location}</option>
-                  ))}
-                </select>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Location: *</label>
+                  <select 
+                    value={selectedLocation}
+                    onChange={(e) => handleLocationChange(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Location</option>
+                    {locations.map(location => (
+                      <option key={location} value={location}>{location}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="form-group">
+                  <label>Patch Type: *</label>
+                  <select 
+                    value={selectedPatchType}
+                    onChange={(e) => handlePatchTypeChange(e.target.value)}
+                    disabled={!selectedLocation}
+                    required
+                  >
+                    <option value="">Select Patch Type</option>
+                    {getFilteredPatchTypes().map(patchType => (
+                      <option key={patchType} value={patchType}>{patchType}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="form-group">
+                  <label>Patch Discriminator: *</label>
+                  <select 
+                    value={selectedPatchDiscriminator}
+                    onChange={(e) => handlePatchDiscriminatorChange(e.target.value)}
+                    disabled={!selectedLocation || !selectedPatchType}
+                    required
+                  >
+                    <option value="">Select Patch Discriminator</option>
+                    {getFilteredPatchDiscriminators().map(discriminator => (
+                      <option key={discriminator} value={discriminator}>{discriminator}</option>
+                    ))}
+                  </select>
+                </div>
               </div>
               
-              <div className="form-group">
-                <label>Patch:</label>
-                <select 
-                  value={selectedPatch}
-                  onChange={(e) => handlePatchChange(e.target.value)}
-                >
-                  <option value="">Select Patch</option>
-                  {getFilteredPatches().map(patch => (
-                    <option key={patch.id} value={patch.id}>{patch.patchName}</option>
-                  ))}
-                </select>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Seed: *</label>
+                  <select 
+                    value={selectedSeed}
+                    onChange={(e) => setSelectedSeed(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Seed</option>
+                    {seeds.map(seed => (
+                      <option key={seed.id} value={seed.id}>{seed.seedName}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div className="form-group">
+                  <label>Action: *</label>
+                  <select 
+                    value={action}
+                    onChange={(e) => setAction(e.target.value)}
+                    required
+                  >
+                    <option value="plant">Plant</option>
+                    <option value="harvest">Harvest</option>
+                  </select>
+                </div>
               </div>
               
-              <div className="form-group">
-                <label>Seed:</label>
-                <select 
-                  value={selectedSeed}
-                  onChange={(e) => setSelectedSeed(e.target.value)}
-                >
-                  <option value="">Select Seed</option>
-                  {seeds.map(seed => (
-                    <option key={seed.id} value={seed.id}>{seed.seedName}</option>
-                  ))}
-                </select>
+              <div className="form-row">
+                <div className="form-group">
+                  <label>Amount: *</label>
+                  <input 
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    min="1"
+                    placeholder="Enter amount"
+                    required
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Start Time:</label>
+                  <input 
+                    type="datetime-local"
+                    value={stepStart}
+                    onChange={(e) => setStepStart(e.target.value)}
+                  />
+                </div>
               </div>
               
-              <div className="form-group">
-                <label>Action:</label>
-                <select 
-                  value={action}
-                  onChange={(e) => setAction(e.target.value)}
-                >
-                  <option value="plant">Plant</option>
-                  <option value="harvest">Harvest</option>
-                </select>
-              </div>
-              
-              <div className="form-group">
-                <label>Amount:</label>
-                <input 
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
-                  min="1"
-                  placeholder="Enter amount"
-                />
+              <div className="form-row">
+                <div className="form-group">
+                  <label>End Time:</label>
+                  <input 
+                    type="datetime-local"
+                    value={stepEnd}
+                    onChange={(e) => setStepEnd(e.target.value)}
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label>Notes:</label>
+                  <input 
+                    type="text"
+                    value={stepNotes}
+                    onChange={(e) => setStepNotes(e.target.value)}
+                    placeholder="Optional notes"
+                  />
+                </div>
               </div>
             </div>
             
@@ -435,9 +582,16 @@ function AddFarmRun() {
               <button 
                 className="submit-button"
                 onClick={handleAddStep}
-                disabled={loading || !selectedPatch || !selectedSeed || !amount}
+                disabled={loading || !selectedLocation || !selectedPatchType || !selectedPatchDiscriminator || !selectedPatch || !selectedSeed || !amount}
               >
-                {loading ? 'Adding...' : 'Add Step'}
+                {loading ? 'Adding...' : 'Save Step'}
+              </button>
+              <button 
+                className="reset-button"
+                onClick={resetStepForm}
+                disabled={loading}
+              >
+                Reset
               </button>
               <button 
                 className="cancel-button"

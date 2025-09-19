@@ -117,6 +117,14 @@ class ApiService {
           }),
         });
       },
+
+      // Create generic change record
+      createChangeRecord: async (changeData) => {
+        return this.request('/seeds/changes', {
+          method: 'POST',
+          body: JSON.stringify(changeData),
+        });
+      },
     };
 
     // Farm Patches API methods

@@ -324,4 +324,38 @@ router.post('/:id/increment', validateChangeRecord, async (req, res) => {
   }
 });
 
+// POST /api/seeds/changes - Create a new change record
+router.post('/changes', validateChangeRecord, async (req, res) => {
+  try {
+    const { seedId, changeType, seedCountChange, yieldCountChange, notes } = req.body;
+    
+    // Create the change record
+    const changeRecord = await seedDatabase.addChangeRecord({
+      seedId,
+      changeType,
+      seedCountChange,
+      yieldCountChange,
+      notes: notes || 'Change recorded'
+    });
+    
+    // Get updated seed with new counts
+    const updatedSeed = await seedDatabase.getById(seedId);
+    
+    res.status(201).json({
+      success: true,
+      data: {
+        changeRecord,
+        updatedSeed
+      },
+      message: 'Change recorded successfully'
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to record change',
+      message: error.message 
+    });
+  }
+});
+
 module.exports = router;

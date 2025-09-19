@@ -8,6 +8,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Debugging and Validation System** - Comprehensive debugging for farm run creation and saving processes
+- **Visual Status Indicators** - Real-time feedback showing farm run creation status and readiness
+- **Enhanced Error Handling** - Improved validation and error messages for farm run operations
+- **API Response Debugging** - Console logging for troubleshooting API communication issues
+
+### Fixed
+- **Farm Run Save Validation** - Added checks to ensure farm run exists before attempting to save
+- **Save Button State Management** - Button now properly disables when no farm run is available
+- **API Method Consistency** - Fixed backend method name mismatch (createChangeRecord → addChangeRecord)
+- **Response Format Standardization** - Resolved inconsistencies between frontend expectations and backend responses
+
+### Changed
+- **Enhanced User Feedback** - Save button now shows "(No Farm Run)" when farm run is not available
+- **Improved Debugging** - Added comprehensive console logging for farm run creation and update operations
+- **Better Error Messages** - More descriptive error messages for troubleshooting
+
+### Added
 - **Add Farm Run Page** - Dedicated full-page interface for creating and managing farm runs
 - **Stopwatch Functionality** - Start/Pause/Reset timer controls with real-time elapsed time display
 - **Dynamic Button States** - Smart button behavior that changes from Start/Reset to Pause/Reset when running
