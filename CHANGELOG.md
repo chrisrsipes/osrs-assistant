@@ -8,6 +8,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Deep Link Support** - Implemented React Router for URL-based navigation and bookmarking
+- **Route-Based Tabs** - Converted state-based tabs to proper routes with browser history support
+- **URL Navigation** - Users can now bookmark and share direct links to specific tabs
+- **Browser Integration** - Back/forward buttons work correctly with tab navigation
+
+### Changed
+- **Navigation System** - Replaced state management with React Router for better UX
+- **Tab Architecture** - Migrated from useState to URL-based tab switching
+- **Default Route** - Root path now redirects to Hello World tab by default
+
+### Technical Improvements
+- **React Router DOM** - Added client-side routing with BrowserRouter
+- **Link Components** - Replaced button clicks with proper Link navigation
+- **Route Configuration** - Set up dedicated routes for each tab:
+  - `/hello` - Hello World tab
+  - `/farming` - Farming Inventory tab
+  - `/coming-soon` - Coming Soon tab
+- **Active State Management** - Dynamic tab highlighting based on current route
+
+## [0.5.0] - 2024-01-XX
+
+### Added
 - **Express Backend Server** - Complete REST API with CRUD operations for seed management
 - **In-Memory Database** - Server-side data persistence with initial OSRS seed data
 - **API Service Layer** - Centralized frontend API communication with error handling

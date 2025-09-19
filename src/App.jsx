@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import HelloWorld from './components/HelloWorld';
 import FarmingInventory from './components/FarmingInventory';
 import ComingSoon from './components/ComingSoon';
 import './App.css';
 
 function App() {
-  const [activeTab, setActiveTab] = useState('hello');
+  const location = useLocation();
 
   const tabs = [
-    { id: 'hello', label: 'Hello World', component: <HelloWorld /> },
-    { id: 'farming', label: 'Farming Inventory', component: <FarmingInventory /> },
-    { id: 'coming-soon', label: 'Coming Soon', component: <ComingSoon /> }
+    { id: 'hello', label: 'Hello World', path: '/hello' },
+    { id: 'farming', label: 'Farming Inventory', path: '/farming' },
+    { id: 'coming-soon', label: 'Coming Soon', path: '/coming-soon' }
   ];
+
+  const isActiveTab = (path) => {
+    return location.pathname === path;
+  };
 
   return (
     <div className="app">
@@ -21,18 +26,23 @@ function App() {
       
       <nav className="tab-navigation">
         {tabs.map(tab => (
-          <button
+          <Link
             key={tab.id}
-            className={`tab-button ${activeTab === tab.id ? 'active' : ''}`}
-            onClick={() => setActiveTab(tab.id)}
+            to={tab.path}
+            className={`tab-button ${isActiveTab(tab.path) ? 'active' : ''}`}
           >
             {tab.label}
-          </button>
+          </Link>
         ))}
       </nav>
 
       <main className="tab-content">
-        {tabs.find(tab => tab.id === activeTab)?.component}
+        <Routes>
+          <Route path="/" element={<Navigate to="/hello" replace />} />
+          <Route path="/hello" element={<HelloWorld />} />
+          <Route path="/farming" element={<FarmingInventory />} />
+          <Route path="/coming-soon" element={<ComingSoon />} />
+        </Routes>
       </main>
     </div>
   );
