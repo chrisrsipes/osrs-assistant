@@ -4,6 +4,7 @@ import FarmingInventory from './FarmingInventory';
 import Activity from './Activity';
 import Locations from './Locations';
 import FarmRunLog from './FarmRunLog';
+import AddFarmRun from './AddFarmRun';
 import './Farming.css';
 
 function Farming() {
@@ -56,6 +57,7 @@ function Farming() {
           <Route path="/locations" element={<Locations />} />
           <Route path="/inventory" element={<FarmingInventory />} />
           <Route path="/farm-run-log" element={<FarmRunLog />} />
+          <Route path="/add-farm-run" element={<AddFarmRun />} />
           <Route path="/planning" element={<div className="coming-soon-page">
             <h3>Farming Planning</h3>
             <p>Plan your farming activities and optimize your routes</p>

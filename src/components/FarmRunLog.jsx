@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import apiService from '../services/api';
 import './FarmRunLog.css';
 
 function FarmRunLog() {
+  const navigate = useNavigate();
   const [selectedFarmRun, setSelectedFarmRun] = useState(null);
   const [farmRuns, setFarmRuns] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,8 +33,7 @@ function FarmRunLog() {
   };
 
   const handleAddFarmRun = () => {
-    // TODO: Implement add farm run functionality
-    console.log('Add new farm run');
+    navigate('/farming/add-farm-run');
   };
 
   const formatDate = (dateString) => {

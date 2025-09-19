@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Add Farm Run Page** - Dedicated full-page interface for creating and managing farm runs
+- **Stopwatch Functionality** - Start/Pause/Reset timer controls with real-time elapsed time display
+- **Dynamic Button States** - Smart button behavior that changes from Start/Reset to Pause/Reset when running
+- **Farm Run Step Management** - Modal interface for adding individual farming steps with location, patch, and seed selection
+- **Automatic Farm Run Creation** - Farm runs are created automatically when entering the add page
+- **Step Recording System** - Complete workflow for recording planting and harvesting activities
+- **Navigation Integration** - Seamless navigation from Farm Run Log to Add Farm Run page
 - **Full Viewport Layout** - Main content now uses full remaining viewport width for better space utilization
 - **Farm Run Log UI** - Complete farm run tracking interface with 2x2 grid layout and summary statistics
 - **Farm Run Data Integration** - Full backend integration with API endpoints and database seeding
