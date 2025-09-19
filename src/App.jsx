@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import HelloWorld from './components/HelloWorld';
+import FarmingInventory from './components/FarmingInventory';
 import ComingSoon from './components/ComingSoon';
 import './App.css';
 
@@ -8,6 +9,7 @@ function App() {
 
   const tabs = [
     { id: 'hello', label: 'Hello World', component: <HelloWorld /> },
+    { id: 'farming', label: 'Farming Inventory', component: <FarmingInventory /> },
     { id: 'coming-soon', label: 'Coming Soon', component: <ComingSoon /> }
   ];
 

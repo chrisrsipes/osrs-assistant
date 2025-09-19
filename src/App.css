@@ -108,86 +108,197 @@
   }
 }
 
-/* Seed Inventory Styles */
-.seeds-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
+/* Welcome Features Styles */
+.welcome-features {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 2rem;
   margin-top: 2rem;
 }
 
-.seeds-list {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 1.5rem;
-}
-
-.seeds-list h3 {
+.welcome-features h3 {
   color: #667eea;
   margin-bottom: 1rem;
   font-size: 1.5rem;
 }
 
-.seed-item {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 8px;
+.welcome-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.welcome-features li {
+  background: rgba(255, 255, 255, 0.1);
   padding: 1rem;
-  margin-bottom: 1rem;
-  cursor: pointer;
+  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
 }
 
-.seed-item:hover {
-  transform: translateY(-2px);
+.welcome-features li:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateX(5px);
+}
+
+/* Farming Inventory Styles */
+.farming-inventory {
+  color: #333;
+}
+
+.inventory-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  border-color: rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
 }
 
-.seed-item.selected {
-  border-color: #667eea;
-  background: rgba(102, 126, 234, 0.1);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.seed-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #667eea;
   margin-bottom: 0.5rem;
 }
 
-.seed-info strong {
-  color: #333;
-  font-size: 1.1rem;
-}
-
-.seed-count {
-  background: #667eea;
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
+.stat-label {
   font-size: 0.9rem;
+  color: #666;
   font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.yield-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.95rem;
+.no-data {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
   color: #666;
 }
 
-.expected-yield {
-  background: #28a745;
+/* Seed Inventory Styles */
+.seeds-container {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.seeds-table-container {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+.seeds-table-container h3 {
+  color: #667eea;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.seeds-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.seeds-table thead {
+  background: #667eea;
   color: white;
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.85rem;
+}
+
+.seeds-table th {
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.seeds-table tbody tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.seeds-table tbody tr:hover {
+  background: rgba(102, 126, 234, 0.1);
+  transform: scale(1.01);
+}
+
+.seeds-table tbody tr.selected {
+  background: rgba(102, 126, 234, 0.2);
+  border-left: 4px solid #667eea;
+}
+
+.seeds-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.seeds-table td {
+  padding: 1rem 0.75rem;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.seed-name {
+  font-weight: 600;
+}
+
+.numeric-cell {
+  text-align: center;
   font-weight: 500;
 }
+
+.expected-yield-cell {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.seed-type-badge {
+  background: #28a745;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.farming-level-badge {
+  background: #ffc107;
+  color: #333;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 
 .seed-details {
   background: rgba(255, 255, 255, 0.1);
@@ -285,15 +396,23 @@
     gap: 1rem;
   }
 
-  .seed-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .seeds-table-container {
+    padding: 1rem;
   }
 
-  .yield-info {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
+  .seeds-table th,
+  .seeds-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .seeds-table th {
+    font-size: 0.8rem;
+  }
+
+  .seed-type-badge,
+  .farming-level-badge {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.4rem;
   }
 }

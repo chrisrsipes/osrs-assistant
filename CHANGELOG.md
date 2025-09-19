@@ -1,0 +1,82 @@
+# Changelog
+
+All notable changes to the OSRS Skilling Assistant project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+### Added
+- **Enhanced Seed Data Model** - Added `seedType` and `requiredFarmingLevel` fields to Seed class
+- **Authentic OSRS Data** - Integrated real Old School RuneScape seed data from official wiki
+- **Professional Table Layout** - Replaced card-based seed display with responsive data table
+- **Real Inventory Data** - Updated with actual player seed and yield counts (1,381 seeds, 7,360 yields)
+- **Comprehensive Seed Database** - 16 different seed types covering all major categories:
+  - Tree seeds (Magic, Yew)
+  - Allotment seeds (Watermelon, Snape Grass)
+  - Herb seeds (Tarromin through Torstol)
+  - Special seeds (Spirit, Celastrus)
+- **Enhanced UI Components** - Color-coded badges for seed types and farming levels
+- **Improved Data Visualization** - Better organization and readability of seed information
+
+### Changed
+- **Seed Class Architecture** - Enhanced with new required fields and validation
+- **Data Structure** - Migrated from hardcoded examples to external JSON with real OSRS data
+- **UI Layout** - Converted from card-based to professional table layout for better data density
+- **Grid Layout** - Optimized container ratios (2:1) for table and details panel
+- **Responsive Design** - Updated mobile breakpoints for table display
+- **Yield Names** - Updated tree seed yields from "logs" to "root" for accuracy
+
+### Technical Improvements
+- **Data Validation** - Enhanced input validation for new seed fields
+- **Utility Methods** - Updated `getSummary()` and `toJSON()` methods for new fields
+- **CSS Architecture** - Streamlined styles with table-specific components
+- **Performance** - Optimized rendering with efficient table structure
+
+## [0.2.0] - 2024-01-XX
+
+### Added
+- Farming Inventory tab with comprehensive seed management system
+- Seed class model with validation and utility methods
+- Interactive seed selection and detailed view functionality
+- Dashboard statistics showing total seeds, yields, and expected yields
+- External JSON data file for seed information (`data/initial_data_farming_seeds.json`)
+- Responsive design with modern UI components and animations
+
+### Changed
+- Restructured application to use tab-based navigation
+- Moved seed management functionality from Hello World tab to dedicated Farming Inventory tab
+- Simplified Hello World tab to serve as welcome page with feature overview
+
+## [0.1.0] - 2024-01-XX
+
+### Added
+- Initial project setup with React 18 and Vite
+- Basic tab navigation system with Hello World and Coming Soon tabs
+- Modern UI design with gradient backgrounds and glassmorphism effects
+- Responsive layout supporting desktop and mobile devices
+- Development environment configuration with hot reload
+- Comprehensive .gitignore file for React.js projects
+- Project documentation and README with setup instructions
+
+### Technical Details
+- **Framework**: React 18 with functional components and hooks
+- **Build Tool**: Vite for fast development and building
+- **Styling**: CSS3 with modern features (gradients, backdrop-filter, animations)
+- **Package Management**: npm with package-lock.json for dependency consistency
+
+---
+
+## Version History Summary
+
+### Major Milestones
+
+1. **Repository Initialization** - Set up the foundational React webapp with modern tooling and beautiful UI
+2. **Farming Inventory System** - Introduced comprehensive seed management functionality with data persistence
+
+### Upcoming Features
+- Additional skill tracking tabs (Mining, Fishing, etc.)
+- Data persistence and local storage
+- Export/import functionality for inventory data
+- Advanced analytics and reporting features

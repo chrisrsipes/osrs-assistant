@@ -9,6 +9,8 @@ class Seed {
      * @param {number} seedData.id - Unique identifier for the seed
      * @param {string} seedData.seedName - Name of the seed (required)
      * @param {string} seedData.yieldName - Name of the yield/produce (required)
+     * @param {string} seedData.seedType - Type/category of the seed (required)
+     * @param {number} seedData.requiredFarmingLevel - Required farming level to plant (required)
      * @param {number} seedData.seedCount - Number of seeds in inventory (required, default = 0)
      * @param {number} seedData.yieldCount - Number of yields in inventory (required, default = 0)
      * @param {number} seedData.averageYieldPerSeed - Average yield per seed planted (required, default = 1)
@@ -23,15 +25,22 @@ class Seed {
             throw new Error('yieldName is required and must be a string');
         }
 
+        if (!seedData.seedType || typeof seedData.seedType !== 'string') {
+            throw new Error('seedType is required and must be a string');
+        }
+
         // Set properties with defaults
         this.id = seedData.id || null;
         this.seedName = seedData.seedName;
         this.yieldName = seedData.yieldName;
+        this.seedType = seedData.seedType;
+        this.requiredFarmingLevel = seedData.requiredFarmingLevel !== undefined ? seedData.requiredFarmingLevel : 1;
         this.seedCount = seedData.seedCount !== undefined ? seedData.seedCount : 0;
         this.yieldCount = seedData.yieldCount !== undefined ? seedData.yieldCount : 0;
         this.averageYieldPerSeed = seedData.averageYieldPerSeed !== undefined ? seedData.averageYieldPerSeed : 1;
 
         // Validate numeric fields
+        this._validateNumericField('requiredFarmingLevel', this.requiredFarmingLevel);
         this._validateNumericField('seedCount', this.seedCount);
         this._validateNumericField('yieldCount', this.yieldCount);
         this._validateNumericField('averageYieldPerSeed', this.averageYieldPerSeed);
@@ -77,6 +86,15 @@ class Seed {
     }
 
     /**
+     * Updates the required farming level
+     * @param {number} newLevel - New required farming level
+     */
+    setRequiredFarmingLevel(newLevel) {
+        this._validateNumericField('requiredFarmingLevel', newLevel);
+        this.requiredFarmingLevel = newLevel;
+    }
+
+    /**
      * Calculates expected total yield based on current seed count
      * @returns {number} Expected total yield
      */
@@ -93,6 +111,8 @@ class Seed {
             id: this.id,
             seedName: this.seedName,
             yieldName: this.yieldName,
+            seedType: this.seedType,
+            requiredFarmingLevel: this.requiredFarmingLevel,
             seedCount: this.seedCount,
             yieldCount: this.yieldCount,
             averageYieldPerSeed: this.averageYieldPerSeed,
@@ -109,6 +129,8 @@ class Seed {
             id: this.id,
             seedName: this.seedName,
             yieldName: this.yieldName,
+            seedType: this.seedType,
+            requiredFarmingLevel: this.requiredFarmingLevel,
             seedCount: this.seedCount,
             yieldCount: this.yieldCount,
             averageYieldPerSeed: this.averageYieldPerSeed
