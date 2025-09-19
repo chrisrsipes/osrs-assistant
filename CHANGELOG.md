@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Full Viewport Layout** - Main content now uses full remaining viewport width for better space utilization
+- **Farm Run Log UI** - Complete farm run tracking interface with 2x2 grid layout and summary statistics
+- **Farm Run Data Integration** - Full backend integration with API endpoints and database seeding
 - **Activity Log System** - Complete inventory change tracking with audit trails
 - **SeedChangeRecord Model** - New data model for tracking inventory changes with timestamps
 - **Change Management UI** - Modal interface for recording inventory changes with validation
@@ -45,6 +48,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Database Storage** - All data now persists between server restarts
 - **Farming Navigation** - Added Locations tab between Activity and Inventory
 - **Database Schema** - Added farm_patches table with comprehensive patch data
+- **Layout Architecture** - Updated main content to use full viewport width with proper flexbox layout
+- **CSS Overflow Handling** - Fixed overflow issues that were preventing Activity and ActivityLog components from displaying
+- **Component Layout** - Updated Farming, Activity, and FarmRunLog components to work with full-width layout
 
 ### Technical Improvements
 - **Change Record API** - New endpoints for inventory change management:
@@ -138,6 +144,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Real-time data loading from API endpoints
   - Proper error handling and loading states
   - Dynamic statistics calculation from live data
+- **Layout System Improvements** - Enhanced viewport utilization:
+  - Full viewport width layout with proper flexbox implementation
+  - Fixed CSS overflow issues preventing component display
+  - Responsive design updates for better mobile experience
+  - Component height and overflow handling optimizations
 
 ## [0.5.0] - 2024-01-XX
 
