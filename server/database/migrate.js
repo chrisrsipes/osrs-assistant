@@ -172,36 +172,45 @@ class DatabaseMigrator {
     return new Promise((resolve, reject) => {
       console.log('🌱 Seeding initial farm patches data...');
       
-      const farmPatchesData = JSON.parse(fs.readFileSync(FARM_PATCHES_DATA_PATH, 'utf8'));
-      
-      const stmt = this.db.prepare(`
-        INSERT INTO farm_patches (location, patch_type, patch_discriminator, notes, automatically_protected)
-        VALUES (?, ?, ?, ?, ?)
-      `);
+      // Clear existing farm patches data first
+      this.db.run('DELETE FROM farm_patches', (err) => {
+        if (err) {
+          console.error('❌ Error clearing farm patches:', err.message);
+          reject(err);
+          return;
+        }
+        
+        const farmPatchesData = JSON.parse(fs.readFileSync(FARM_PATCHES_DATA_PATH, 'utf8'));
+        
+        const stmt = this.db.prepare(`
+          INSERT INTO farm_patches (location, patch_type, patch_discriminator, notes, automatically_protected)
+          VALUES (?, ?, ?, ?, ?)
+        `);
 
-      let completed = 0;
-      const total = farmPatchesData.length;
+        let completed = 0;
+        const total = farmPatchesData.length;
 
-      farmPatchesData.forEach((patch, index) => {
-        stmt.run([
-          patch.location,
-          patch.patchType,
-          patch.patchDiscriminator,
-          patch.notes || '',
-          patch.automaticallyProtected ? 1 : 0
-        ], (err) => {
-          if (err) {
-            console.error(`❌ Error inserting farm patch ${patch.location} ${patch.patchType}:`, err.message);
-            reject(err);
-            return;
-          }
-          
-          completed++;
-          if (completed === total) {
-            stmt.finalize();
-            console.log(`✅ Seeded ${total} farm patches`);
-            resolve();
-          }
+        farmPatchesData.forEach((patch, index) => {
+          stmt.run([
+            patch.location,
+            patch.patchType,
+            patch.patchDiscriminator,
+            patch.notes || '',
+            patch.automaticallyProtected ? 1 : 0
+          ], (err) => {
+            if (err) {
+              console.error(`❌ Error inserting farm patch ${patch.location} ${patch.patchType}:`, err.message);
+              reject(err);
+              return;
+            }
+            
+            completed++;
+            if (completed === total) {
+              stmt.finalize();
+              console.log(`✅ Seeded ${total} farm patches`);
+              resolve();
+            }
+          });
         });
       });
     });

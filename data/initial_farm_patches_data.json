@@ -1,33 +1,5 @@
 [
   {
-    "location": "Falador",
-    "patchType": "Allotment",
-    "patchDiscriminator": "north",
-    "notes": "North allotment patch in Falador",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Falador",
-    "patchType": "Allotment",
-    "patchDiscriminator": "south",
-    "notes": "South allotment patch in Falador",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Falador",
-    "patchType": "Flower",
-    "patchDiscriminator": "north",
-    "notes": "North flower patch in Falador",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Falador",
-    "patchType": "Flower",
-    "patchDiscriminator": "south",
-    "notes": "South flower patch in Falador",
-    "automaticallyProtected": false
-  },
-  {
     "location": "Ardougne",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -44,15 +16,15 @@
   {
     "location": "Ardougne",
     "patchType": "Flower",
-    "patchDiscriminator": "north",
-    "notes": "North flower patch in Ardougne",
+    "patchDiscriminator": "1",
+    "notes": "Flower patch in Ardougne",
     "automaticallyProtected": false
   },
   {
     "location": "Ardougne",
-    "patchType": "Flower",
-    "patchDiscriminator": "south",
-    "notes": "South flower patch in Ardougne",
+    "patchType": "Herb",
+    "patchDiscriminator": "1",
+    "notes": "Herb patch in Ardougne",
     "automaticallyProtected": false
   },
   {
@@ -72,57 +44,8 @@
   {
     "location": "Catherby",
     "patchType": "Flower",
-    "patchDiscriminator": "north",
-    "notes": "North flower patch in Catherby",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Catherby",
-    "patchType": "Flower",
-    "patchDiscriminator": "south",
-    "notes": "South flower patch in Catherby",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Port Phasmatys",
-    "patchType": "Allotment",
-    "patchDiscriminator": "north",
-    "notes": "North allotment patch in Port Phasmatys",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Port Phasmatys",
-    "patchType": "Allotment",
-    "patchDiscriminator": "south",
-    "notes": "South allotment patch in Port Phasmatys",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Port Phasmatys",
-    "patchType": "Flower",
-    "patchDiscriminator": "north",
-    "notes": "North flower patch in Port Phasmatys",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Port Phasmatys",
-    "patchType": "Flower",
-    "patchDiscriminator": "south",
-    "notes": "South flower patch in Port Phasmatys",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Falador",
-    "patchType": "Herb",
     "patchDiscriminator": "1",
-    "notes": "Herb patch in Falador",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Ardougne",
-    "patchType": "Herb",
-    "patchDiscriminator": "1",
-    "notes": "Herb patch in Ardougne",
+    "notes": "Flower patch in Catherby",
     "automaticallyProtected": false
   },
   {
@@ -133,17 +56,80 @@
     "automaticallyProtected": false
   },
   {
-    "location": "Port Phasmatys",
-    "patchType": "Herb",
-    "patchDiscriminator": "1",
-    "notes": "Herb patch in Port Phasmatys",
+    "location": "Civitas illa Fortis",
+    "patchType": "Allotment",
+    "patchDiscriminator": "north",
+    "notes": "North allotment patch in Civitas illa Fortis",
     "automaticallyProtected": false
   },
   {
-    "location": "Hosidius",
+    "location": "Civitas illa Fortis",
+    "patchType": "Allotment",
+    "patchDiscriminator": "south",
+    "notes": "South allotment patch in Civitas illa Fortis",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Civitas illa Fortis",
+    "patchType": "Flower",
+    "patchDiscriminator": "1",
+    "notes": "Flower patch in Civitas illa Fortis",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Civitas illa Fortis",
     "patchType": "Herb",
     "patchDiscriminator": "1",
-    "notes": "Herb patch in Hosidius",
+    "notes": "Herb patch in Civitas illa Fortis",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Falador",
+    "patchType": "Allotment",
+    "patchDiscriminator": "north",
+    "notes": "North allotment patch in Falador",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Falador",
+    "patchType": "Allotment",
+    "patchDiscriminator": "south",
+    "notes": "South allotment patch in Falador",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Falador",
+    "patchType": "Flower",
+    "patchDiscriminator": "1",
+    "notes": "Flower patch in Falador",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Falador",
+    "patchType": "Herb",
+    "patchDiscriminator": "1",
+    "notes": "Herb patch in Falador",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Farming Guild",
+    "patchType": "Allotment",
+    "patchDiscriminator": "north",
+    "notes": "North allotment patch in Farming Guild",
+    "automaticallyProtected": true
+  },
+  {
+    "location": "Farming Guild",
+    "patchType": "Allotment",
+    "patchDiscriminator": "south",
+    "notes": "South allotment patch in Farming Guild",
+    "automaticallyProtected": true
+  },
+  {
+    "location": "Farming Guild",
+    "patchType": "Flower",
+    "patchDiscriminator": "1",
+    "notes": "Flower patch in Farming Guild",
     "automaticallyProtected": true
   },
   {
@@ -154,87 +140,59 @@
     "automaticallyProtected": true
   },
   {
-    "location": "Farming Guild",
+    "location": "Kourend",
+    "patchType": "Allotment",
+    "patchDiscriminator": "north",
+    "notes": "North allotment patch in Kourend",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Kourend",
+    "patchType": "Allotment",
+    "patchDiscriminator": "south",
+    "notes": "South allotment patch in Kourend",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Kourend",
+    "patchType": "Flower",
+    "patchDiscriminator": "1",
+    "notes": "Flower patch in Kourend",
+    "automaticallyProtected": false
+  },
+  {
+    "location": "Kourend",
     "patchType": "Herb",
-    "patchDiscriminator": "2",
-    "notes": "Second herb patch in Farming Guild",
-    "automaticallyProtected": true
-  },
-  {
-    "location": "Falador",
-    "patchType": "Tree",
     "patchDiscriminator": "1",
-    "notes": "Tree patch in Falador",
+    "notes": "Herb patch in Kourend",
     "automaticallyProtected": false
   },
   {
-    "location": "Lumbridge",
-    "patchType": "Tree",
-    "patchDiscriminator": "1",
-    "notes": "Tree patch in Lumbridge",
+    "location": "Morytania",
+    "patchType": "Allotment",
+    "patchDiscriminator": "north",
+    "notes": "North allotment patch in Morytania",
     "automaticallyProtected": false
   },
   {
-    "location": "Varrock",
-    "patchType": "Tree",
-    "patchDiscriminator": "1",
-    "notes": "Tree patch in Varrock",
+    "location": "Morytania",
+    "patchType": "Allotment",
+    "patchDiscriminator": "south",
+    "notes": "South allotment patch in Morytania",
     "automaticallyProtected": false
   },
   {
-    "location": "Taverley",
-    "patchType": "Tree",
+    "location": "Morytania",
+    "patchType": "Flower",
     "patchDiscriminator": "1",
-    "notes": "Tree patch in Taverley",
+    "notes": "Flower patch in Morytania",
     "automaticallyProtected": false
   },
   {
-    "location": "Falador",
-    "patchType": "Fruit Tree",
+    "location": "Morytania",
+    "patchType": "Herb",
     "patchDiscriminator": "1",
-    "notes": "Fruit tree patch in Falador",
+    "notes": "Herb patch in Morytania",
     "automaticallyProtected": false
-  },
-  {
-    "location": "Catherby",
-    "patchType": "Fruit Tree",
-    "patchDiscriminator": "1",
-    "notes": "Fruit tree patch in Catherby",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Tree Gnome Stronghold",
-    "patchType": "Fruit Tree",
-    "patchDiscriminator": "1",
-    "notes": "Fruit tree patch in Tree Gnome Stronghold",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Brimhaven",
-    "patchType": "Fruit Tree",
-    "patchDiscriminator": "1",
-    "notes": "Fruit tree patch in Brimhaven",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Lletya",
-    "patchType": "Fruit Tree",
-    "patchDiscriminator": "1",
-    "notes": "Fruit tree patch in Lletya",
-    "automaticallyProtected": false
-  },
-  {
-    "location": "Farming Guild",
-    "patchType": "Fruit Tree",
-    "patchDiscriminator": "1",
-    "notes": "Fruit tree patch in Farming Guild",
-    "automaticallyProtected": true
-  },
-  {
-    "location": "Farming Guild",
-    "patchType": "Fruit Tree",
-    "patchDiscriminator": "2",
-    "notes": "Second fruit tree patch in Farming Guild",
-    "automaticallyProtected": true
   }
 ]
