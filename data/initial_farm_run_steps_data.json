@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "farmRunId": 1,
+    "start": "2024-01-15T10:30:00Z",
+    "end": "2024-01-15T10:45:00Z",
+    "patchId": 1,
+    "seedChangeRecordId": 1
+  },
+  {
+    "id": 2,
+    "farmRunId": 1,
+    "start": "2024-01-15T10:45:00Z",
+    "end": "2024-01-15T11:00:00Z",
+    "patchId": 2,
+    "seedChangeRecordId": 2
+  },
+  {
+    "id": 3,
+    "farmRunId": 1,
+    "start": "2024-01-15T11:00:00Z",
+    "end": "2024-01-15T11:15:00Z",
+    "patchId": 3,
+    "seedChangeRecordId": 3
+  },
+  {
+    "id": 4,
+    "farmRunId": 2,
+    "start": "2024-01-16T09:15:00Z",
+    "end": "2024-01-16T09:30:00Z",
+    "patchId": 4,
+    "seedChangeRecordId": 4
+  },
+  {
+    "id": 5,
+    "farmRunId": 2,
+    "start": "2024-01-16T09:30:00Z",
+    "end": "2024-01-16T09:45:00Z",
+    "patchId": 5,
+    "seedChangeRecordId": 5
+  },
+  {
+    "id": 6,
+    "farmRunId": 3,
+    "start": "2024-01-17T14:20:00Z",
+    "end": "2024-01-17T14:35:00Z",
+    "patchId": 6,
+    "seedChangeRecordId": 6
+  },
+  {
+    "id": 7,
+    "farmRunId": 3,
+    "start": "2024-01-17T14:35:00Z",
+    "end": "2024-01-17T14:50:00Z",
+    "patchId": 7,
+    "seedChangeRecordId": 7
+  },
+  {
+    "id": 8,
+    "farmRunId": 3,
+    "start": "2024-01-17T14:50:00Z",
+    "end": "2024-01-17T15:05:00Z",
+    "patchId": 8,
+    "seedChangeRecordId": 8
+  }
+]

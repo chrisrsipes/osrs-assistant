@@ -3,6 +3,7 @@ import { Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import FarmingInventory from './FarmingInventory';
 import Activity from './Activity';
 import Locations from './Locations';
+import FarmRunLog from './FarmRunLog';
 import './Farming.css';
 
 function Farming() {
@@ -12,6 +13,7 @@ function Farming() {
     { id: 'activity', label: 'Activity', path: '/farming/activity', icon: '📊' },
     { id: 'locations', label: 'Locations', path: '/farming/locations', icon: '📍' },
     { id: 'inventory', label: 'Inventory', path: '/farming/inventory', icon: '📦' },
+    { id: 'farm-run-log', label: 'Farm Run Log', path: '/farming/farm-run-log', icon: '🏃' },
     { id: 'planning', label: 'Planning', path: '/farming/planning', icon: '📋' },
     { id: 'progress', label: 'Progress', path: '/farming/progress', icon: '📈' },
     { id: 'guides', label: 'Guides', path: '/farming/guides', icon: '📚' }
@@ -53,6 +55,7 @@ function Farming() {
           <Route path="/activity" element={<Activity />} />
           <Route path="/locations" element={<Locations />} />
           <Route path="/inventory" element={<FarmingInventory />} />
+          <Route path="/farm-run-log" element={<FarmRunLog />} />
           <Route path="/planning" element={<div className="coming-soon-page">
             <h3>Farming Planning</h3>
             <p>Plan your farming activities and optimize your routes</p>

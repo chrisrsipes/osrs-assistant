@@ -15,6 +15,8 @@ const SCHEMA_PATH = path.join(__dirname, 'schema.sql');
 const SEEDS_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_seeds_data.json');
 const CHANGE_RECORDS_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_change_records_data.json');
 const FARM_PATCHES_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_farm_patches_data.json');
+const FARM_RUNS_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_farm_runs_data.json');
+const FARM_RUN_STEPS_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_farm_run_steps_data.json');
 
 class DatabaseMigrator {
   constructor() {
@@ -228,6 +230,108 @@ class DatabaseMigrator {
   }
 
   /**
+   * Seed initial farm runs data
+   */
+  async seedFarmRuns() {
+    return new Promise((resolve, reject) => {
+      console.log('🏃 Seeding initial farm runs data...');
+      
+      // Clear existing farm runs data first
+      this.db.run('DELETE FROM farm_runs', (err) => {
+        if (err) {
+          console.error('❌ Error clearing farm runs:', err.message);
+          reject(err);
+          return;
+        }
+        
+        const farmRunsData = JSON.parse(fs.readFileSync(FARM_RUNS_DATA_PATH, 'utf8'));
+        
+        const stmt = this.db.prepare(`
+          INSERT INTO farm_runs (id, start, end, tags)
+          VALUES (?, ?, ?, ?)
+        `);
+
+        let completed = 0;
+        const total = farmRunsData.length;
+
+        farmRunsData.forEach((farmRun, index) => {
+          stmt.run([
+            farmRun.id,
+            farmRun.start,
+            farmRun.end,
+            JSON.stringify(farmRun.tags)
+          ], (err) => {
+            if (err) {
+              console.error(`❌ Error inserting farm run ${farmRun.id}:`, err.message);
+              reject(err);
+              return;
+            }
+            
+            completed++;
+            if (completed === total) {
+              stmt.finalize();
+              console.log(`✅ Seeded ${total} farm runs`);
+              resolve();
+            }
+          });
+        });
+      });
+    });
+  }
+
+  /**
+   * Seed initial farm run steps data
+   */
+  async seedFarmRunSteps() {
+    return new Promise((resolve, reject) => {
+      console.log('👣 Seeding initial farm run steps data...');
+      
+      // Clear existing farm run steps data first
+      this.db.run('DELETE FROM farm_run_steps', (err) => {
+        if (err) {
+          console.error('❌ Error clearing farm run steps:', err.message);
+          reject(err);
+          return;
+        }
+        
+        const farmRunStepsData = JSON.parse(fs.readFileSync(FARM_RUN_STEPS_DATA_PATH, 'utf8'));
+        
+        const stmt = this.db.prepare(`
+          INSERT INTO farm_run_steps (id, farm_run_id, start, end, patch_id, seed_change_record_id)
+          VALUES (?, ?, ?, ?, ?, ?)
+        `);
+
+        let completed = 0;
+        const total = farmRunStepsData.length;
+
+        farmRunStepsData.forEach((step, index) => {
+          stmt.run([
+            step.id,
+            step.farmRunId,
+            step.start,
+            step.end,
+            step.patchId,
+            step.seedChangeRecordId
+          ], (err) => {
+            if (err) {
+              console.error(`❌ Error inserting farm run step ${step.id}:`, err.message);
+              reject(err);
+              return;
+            }
+            
+            completed++;
+            if (completed === total) {
+              stmt.finalize();
+              console.log(`✅ Seeded ${total} farm run steps`);
+              resolve();
+            }
+          });
+        });
+      });
+    });
+  }
+
+  /**
    * Verify database state
    */
   async verify() {
@@ -317,6 +421,8 @@ class DatabaseMigrator {
       await this.seedSeeds();
       await this.seedChangeRecords();
       await this.seedFarmPatches();
+      await this.seedFarmRuns();
+      await this.seedFarmRunSteps();
       await this.verify();
       console.log('🎉 Database migration and seeding completed successfully!');
     } catch (error) {

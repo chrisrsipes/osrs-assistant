@@ -383,6 +383,302 @@ class SQLiteDatabase {
     });
   }
 
+  // ==================== FARM RUN METHODS ====================
+
+  /**
+   * Get all farm runs with their steps
+   */
+  async getAllFarmRunsWithSteps() {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT 
+          fr.id,
+          fr.start,
+          fr.end,
+          fr.tags,
+          fr.created_at,
+          fr.updated_at,
+          frs.id as step_id,
+          frs.start as step_start,
+          frs.end as step_end,
+          frs.patch_id,
+          frs.seed_change_record_id,
+          frs.created_at as step_created_at,
+          frs.updated_at as step_updated_at
+        FROM farm_runs fr
+        LEFT JOIN farm_run_steps frs ON fr.id = frs.farm_run_id
+        ORDER BY fr.start DESC, frs.id ASC
+      `;
+
+      this.db.all(query, [], (err, rows) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        // Group steps by farm run
+        const farmRunsMap = new Map();
+        
+        rows.forEach(row => {
+          const farmRunId = row.id;
+          
+          if (!farmRunsMap.has(farmRunId)) {
+            farmRunsMap.set(farmRunId, {
+              id: row.id,
+              start: row.start,
+              end: row.end,
+              tags: JSON.parse(row.tags || '[]'),
+              createdAt: row.created_at,
+              updatedAt: row.updated_at,
+              steps: []
+            });
+          }
+
+          if (row.step_id) {
+            farmRunsMap.get(farmRunId).steps.push({
+              id: row.step_id,
+              farmRunId: row.id,
+              start: row.step_start,
+              end: row.step_end,
+              patchId: row.patch_id,
+              seedChangeRecordId: row.seed_change_record_id,
+              createdAt: row.step_created_at,
+              updatedAt: row.step_updated_at
+            });
+          }
+        });
+
+        const farmRuns = Array.from(farmRunsMap.values());
+        resolve(farmRuns);
+      });
+    });
+  }
+
+  /**
+   * Get a specific farm run with its steps
+   */
+  async getFarmRunWithSteps(farmRunId) {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT 
+          fr.id,
+          fr.start,
+          fr.end,
+          fr.tags,
+          fr.created_at,
+          fr.updated_at,
+          frs.id as step_id,
+          frs.start as step_start,
+          frs.end as step_end,
+          frs.patch_id,
+          frs.seed_change_record_id,
+          frs.created_at as step_created_at,
+          frs.updated_at as step_updated_at
+        FROM farm_runs fr
+        LEFT JOIN farm_run_steps frs ON fr.id = frs.farm_run_id
+        WHERE fr.id = ?
+        ORDER BY frs.id ASC
+      `;
+
+      this.db.all(query, [farmRunId], (err, rows) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (rows.length === 0) {
+          resolve(null);
+          return;
+        }
+
+        const farmRun = {
+          id: rows[0].id,
+          start: rows[0].start,
+          end: rows[0].end,
+          tags: JSON.parse(rows[0].tags || '[]'),
+          createdAt: rows[0].created_at,
+          updatedAt: rows[0].updated_at,
+          steps: []
+        };
+
+        rows.forEach(row => {
+          if (row.step_id) {
+            farmRun.steps.push({
+              id: row.step_id,
+              farmRunId: row.id,
+              start: row.step_start,
+              end: row.step_end,
+              patchId: row.patch_id,
+              seedChangeRecordId: row.seed_change_record_id,
+              createdAt: row.step_created_at,
+              updatedAt: row.step_updated_at
+            });
+          }
+        });
+
+        resolve(farmRun);
+      });
+    });
+  }
+
+  /**
+   * Create a new farm run
+   */
+  async createFarmRun(farmRunData) {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = `
+        INSERT INTO farm_runs (start, end, tags)
+        VALUES (?, ?, ?)
+      `;
+
+      this.db.run(query, [
+        farmRunData.start,
+        farmRunData.end,
+        JSON.stringify(farmRunData.tags || [])
+      ], function(err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        const newFarmRun = {
+          id: this.lastID,
+          start: farmRunData.start,
+          end: farmRunData.end,
+          tags: farmRunData.tags || [],
+          steps: []
+        };
+
+        resolve(newFarmRun);
+      });
+    });
+  }
+
+  /**
+   * Update a farm run
+   */
+  async updateFarmRun(farmRunId, updateData) {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = `
+        UPDATE farm_runs 
+        SET start = ?, end = ?, tags = ?, updated_at = CURRENT_TIMESTAMP
+        WHERE id = ?
+      `;
+
+      this.db.run(query, [
+        updateData.start,
+        updateData.end,
+        JSON.stringify(updateData.tags || []),
+        farmRunId
+      ], function(err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        if (this.changes === 0) {
+          resolve(null);
+          return;
+        }
+
+        // Return updated farm run
+        this.getFarmRunWithSteps(farmRunId)
+          .then(resolve)
+          .catch(reject);
+      });
+    });
+  }
+
+  /**
+   * Delete a farm run
+   */
+  async deleteFarmRun(farmRunId) {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = 'DELETE FROM farm_runs WHERE id = ?';
+
+      this.db.run(query, [farmRunId], function(err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(this.changes > 0);
+      });
+    });
+  }
+
+  /**
+   * Get farm run steps for a specific farm run
+   */
+  async getFarmRunSteps(farmRunId) {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT * FROM farm_run_steps 
+        WHERE farm_run_id = ? 
+        ORDER BY id ASC
+      `;
+
+      this.db.all(query, [farmRunId], (err, rows) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        resolve(rows);
+      });
+    });
+  }
+
+  /**
+   * Create a new farm run step
+   */
+  async createFarmRunStep(stepData) {
+    await this.init();
+    
+    return new Promise((resolve, reject) => {
+      const query = `
+        INSERT INTO farm_run_steps (farm_run_id, start, end, patch_id, seed_change_record_id)
+        VALUES (?, ?, ?, ?, ?)
+      `;
+
+      this.db.run(query, [
+        stepData.farmRunId,
+        stepData.start,
+        stepData.end,
+        stepData.patchId,
+        stepData.seedChangeRecordId
+      ], function(err) {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        const newStep = {
+          id: this.lastID,
+          farmRunId: stepData.farmRunId,
+          start: stepData.start,
+          end: stepData.end,
+          patchId: stepData.patchId,
+          seedChangeRecordId: stepData.seedChangeRecordId
+        };
+
+        resolve(newStep);
+      });
+    });
+  }
+
   /**
    * Close database connection
    */

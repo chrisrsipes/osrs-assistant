@@ -180,6 +180,55 @@ class ApiService {
       },
     };
 
+    // Farm Runs API methods
+    this.farmRuns = {
+      // Get all farm runs with their steps
+      getAll: async () => {
+        return this.request('/farm-runs');
+      },
+
+      // Get farm run by ID with steps
+      getById: async (id) => {
+        return this.request(`/farm-runs/${id}`);
+      },
+
+      // Create new farm run
+      create: async (farmRunData) => {
+        return this.request('/farm-runs', {
+          method: 'POST',
+          body: JSON.stringify(farmRunData),
+        });
+      },
+
+      // Update farm run by ID
+      update: async (id, updateData) => {
+        return this.request(`/farm-runs/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify(updateData),
+        });
+      },
+
+      // Delete farm run by ID
+      delete: async (id) => {
+        return this.request(`/farm-runs/${id}`, {
+          method: 'DELETE',
+        });
+      },
+
+      // Get farm run steps for a specific farm run
+      getSteps: async (farmRunId) => {
+        return this.request(`/farm-runs/${farmRunId}/steps`);
+      },
+
+      // Create new farm run step
+      createStep: async (farmRunId, stepData) => {
+        return this.request(`/farm-runs/${farmRunId}/steps`, {
+          method: 'POST',
+          body: JSON.stringify(stepData),
+        });
+      },
+    };
+
     // Health check
     this.health = async () => {
       return this.request('/health');

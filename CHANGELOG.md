@@ -104,6 +104,40 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Timestamp validation ensuring end > start
   - Duration calculation and status checking methods
   - Relationship validation and data integrity checks
+- **Farm Run Log UI** - Complete farming run session management interface:
+  - 2x2 grid layout with summary cards and detailed views
+  - Farm runs table with click-to-select functionality
+  - Farm run details panel showing steps and metadata
+  - Real-time statistics (total runs, steps, yield calculations)
+  - Add farm run button for creating new sessions
+- **Farm Run Data Integration** - Full backend integration with persistent storage:
+  - JSON data files for initial farm runs and steps seeding
+  - Database migration updates to seed farm run data
+  - REST API endpoints for farm runs with joined steps
+  - API service integration replacing static mock data
+
+### Technical Improvements
+- **Farm Run API Endpoints** - Complete REST API for farm run management:
+  - `GET /api/farm-runs` - Get all farm runs with joined steps
+  - `GET /api/farm-runs/:id` - Get specific farm run with steps
+  - `POST /api/farm-runs` - Create new farm run
+  - `PUT /api/farm-runs/:id` - Update farm run
+  - `DELETE /api/farm-runs/:id` - Delete farm run
+  - `GET /api/farm-runs/:id/steps` - Get steps for specific farm run
+  - `POST /api/farm-runs/:id/steps` - Create new farm run step
+- **Database Methods** - Advanced SQL queries for farm run data:
+  - Complex JOIN queries to group steps by farm run
+  - Foreign key relationship handling
+  - Cascade delete operations for data integrity
+  - JSON parsing for tags and metadata
+- **Migration System Updates** - Enhanced database seeding:
+  - Added farm runs and farm run steps seeding methods
+  - Updated verification to include new table counts
+  - Proper data file integration with migration script
+- **Frontend-Backend Integration** - Seamless data flow:
+  - Real-time data loading from API endpoints
+  - Proper error handling and loading states
+  - Dynamic statistics calculation from live data
 
 ## [0.5.0] - 2024-01-XX
 

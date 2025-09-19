@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const seedRoutes = require('./routes/seeds');
 const farmPatchRoutes = require('./routes/farmPatches');
+const farmRunRoutes = require('./routes/farmRuns');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,6 +14,7 @@ app.use(express.json());
 // Routes
 app.use('/api/seeds', seedRoutes);
 app.use('/api/farm-patches', farmPatchRoutes);
+app.use('/api/farm-runs', farmRunRoutes);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
