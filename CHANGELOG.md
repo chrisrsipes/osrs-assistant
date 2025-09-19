@@ -8,6 +8,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Express Backend Server** - Complete REST API with CRUD operations for seed management
+- **In-Memory Database** - Server-side data persistence with initial OSRS seed data
+- **API Service Layer** - Centralized frontend API communication with error handling
+- **CRUD Endpoints** - Full Create, Read, Update, Delete operations for seeds:
+  - `GET /api/seeds` - Retrieve all seeds
+  - `GET /api/seeds/:id` - Get specific seed by ID
+  - `POST /api/seeds` - Create new seed
+  - `PUT /api/seeds/:id` - Full update of seed
+  - `PATCH /api/seeds/:id` - Partial update of seed
+  - `DELETE /api/seeds/:id` - Delete seed
+  - `POST /api/seeds/reset` - Reset to initial data (dev only)
+- **Loading States** - Professional loading spinner and error handling UI
+- **Development Scripts** - Concurrent frontend/backend development workflow
+- **Health Check Endpoint** - Server monitoring and status verification
+
+### Changed
+- **Data Architecture** - Migrated from static JSON imports to dynamic API calls
+- **Frontend Data Flow** - Refactored components to use async API service
+- **Development Workflow** - Added scripts for running both frontend and backend
+- **Error Handling** - Enhanced user experience with loading states and retry functionality
+
+### Technical Improvements
+- **Server-Side Validation** - Input validation middleware for seed data
+- **CORS Configuration** - Cross-origin resource sharing for frontend-backend communication
+- **Error Response Format** - Standardized API error responses with proper HTTP status codes
+- **Async/Await Pattern** - Modern JavaScript patterns for API communication
+- **Modular Architecture** - Separated concerns with dedicated routes, database, and services
+- **Development Dependencies** - Added nodemon for auto-reload and concurrently for parallel execution
+
+## [0.4.0] - 2024-01-XX
+
+### Added
 - **Two-Column Layout System** - Implemented dedicated seed list and detail view columns
 - **Enhanced Detail Panel** - Professional card-based detail view with key metrics visualization
 - **Click-Based Selection** - Replaced hover effects with persistent click-based seed selection

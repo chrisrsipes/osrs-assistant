@@ -1,21 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import Seed from '../models/Seed';
-import initialSeedsData from '../../data/initial_data_farming_seeds.json';
+import apiService from '../services/api';
 
 function FarmingInventory() {
   const [seeds, setSeeds] = useState([]);
   const [selectedSeed, setSelectedSeed] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Load seeds from JSON data file
-    try {
-      const exampleSeeds = initialSeedsData.map(seedData => new Seed(seedData));
-      setSeeds(exampleSeeds);
-    } catch (error) {
-      console.error('Error loading seed data:', error);
-      setSeeds([]);
-    }
+    loadSeeds();
   }, []);
+
+  const loadSeeds = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await apiService.seeds.getAll();
+      const seedObjects = response.data.map(seedData => new Seed(seedData));
+      setSeeds(seedObjects);
+    } catch (error) {
+      console.error('Error loading seeds:', error);
+      setError('Failed to load seeds. Please check if the backend server is running.');
+      setSeeds([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSeedUpdate = async (id, updateData) => {
+    try {
+      const response = await apiService.seeds.update(id, updateData);
+      const updatedSeed = new Seed(response.data);
+      
+      // Update the seeds array
+      setSeeds(prevSeeds => 
+        prevSeeds.map(seed => 
+          seed.id === id ? updatedSeed : seed
+        )
+      );
+      
+      // Update selected seed if it's the one being updated
+      if (selectedSeed && selectedSeed.id === id) {
+        setSelectedSeed(updatedSeed);
+      }
+      
+      return updatedSeed;
+    } catch (error) {
+      console.error('Error updating seed:', error);
+      throw error;
+    }
+  };
 
   const handleSeedSelect = (seed) => {
     setSelectedSeed(seed);
@@ -32,6 +67,33 @@ function FarmingInventory() {
   const getExpectedTotalYield = () => {
     return seeds.reduce((total, seed) => total + seed.getExpectedYield(), 0);
   };
+
+  if (loading) {
+    return (
+      <div className="farming-inventory">
+        <h2>Farming Inventory Management</h2>
+        <div className="loading-state">
+          <div className="loading-spinner"></div>
+          <p>Loading seed data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="farming-inventory">
+        <h2>Farming Inventory Management</h2>
+        <div className="error-state">
+          <div className="error-icon">⚠️</div>
+          <p>{error}</p>
+          <button onClick={loadSeeds} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="farming-inventory">
