@@ -38,6 +38,31 @@ CREATE TABLE IF NOT EXISTS farm_patches (
     UNIQUE(location, patch_type, patch_discriminator)
 );
 
+-- Farm runs table - stores farming run sessions
+CREATE TABLE IF NOT EXISTS farm_runs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    start DATETIME,
+    end DATETIME,
+    tags TEXT DEFAULT '[]', -- JSON array of strings
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Farm run steps table - stores individual steps within a farm run
+CREATE TABLE IF NOT EXISTS farm_run_steps (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    farm_run_id INTEGER NOT NULL,
+    start DATETIME,
+    end DATETIME,
+    patch_id INTEGER NOT NULL,
+    seed_change_record_id INTEGER UNIQUE, -- 1:1 relationship
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (farm_run_id) REFERENCES farm_runs (id) ON DELETE CASCADE,
+    FOREIGN KEY (patch_id) REFERENCES farm_patches (id) ON DELETE CASCADE,
+    FOREIGN KEY (seed_change_record_id) REFERENCES seed_change_records (id) ON DELETE SET NULL
+);
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_seeds_seed_type ON seeds(seed_type);
 CREATE INDEX IF NOT EXISTS idx_seeds_farming_level ON seeds(required_farming_level);
@@ -47,6 +72,14 @@ CREATE INDEX IF NOT EXISTS idx_change_records_change_type ON seed_change_records
 CREATE INDEX IF NOT EXISTS idx_farm_patches_location ON farm_patches(location);
 CREATE INDEX IF NOT EXISTS idx_farm_patches_patch_type ON farm_patches(patch_type);
 CREATE INDEX IF NOT EXISTS idx_farm_patches_discriminator ON farm_patches(patch_discriminator);
+CREATE INDEX IF NOT EXISTS idx_farm_runs_start ON farm_runs(start);
+CREATE INDEX IF NOT EXISTS idx_farm_runs_end ON farm_runs(end);
+CREATE INDEX IF NOT EXISTS idx_farm_runs_created_at ON farm_runs(created_at);
+CREATE INDEX IF NOT EXISTS idx_farm_run_steps_farm_run_id ON farm_run_steps(farm_run_id);
+CREATE INDEX IF NOT EXISTS idx_farm_run_steps_patch_id ON farm_run_steps(patch_id);
+CREATE INDEX IF NOT EXISTS idx_farm_run_steps_seed_change_record_id ON farm_run_steps(seed_change_record_id);
+CREATE INDEX IF NOT EXISTS idx_farm_run_steps_start ON farm_run_steps(start);
+CREATE INDEX IF NOT EXISTS idx_farm_run_steps_end ON farm_run_steps(end);
 
 -- Create trigger to update updated_at timestamp on seeds table
 CREATE TRIGGER IF NOT EXISTS update_seeds_timestamp 
@@ -60,4 +93,18 @@ CREATE TRIGGER IF NOT EXISTS update_farm_patches_timestamp
     AFTER UPDATE ON farm_patches
 BEGIN
     UPDATE farm_patches SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+-- Create trigger to update updated_at timestamp on farm_runs table
+CREATE TRIGGER IF NOT EXISTS update_farm_runs_timestamp 
+    AFTER UPDATE ON farm_runs
+BEGIN
+    UPDATE farm_runs SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+-- Create trigger to update updated_at timestamp on farm_run_steps table
+CREATE TRIGGER IF NOT EXISTS update_farm_run_steps_timestamp 
+    AFTER UPDATE ON farm_run_steps
+BEGIN
+    UPDATE farm_run_steps SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;

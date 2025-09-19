@@ -260,7 +260,27 @@ class DatabaseMigrator {
             }
             
             console.log(`📊 Farm patches in database: ${result.count}`);
-            resolve();
+            
+            this.db.get('SELECT COUNT(*) as count FROM farm_runs', (err, result) => {
+              if (err) {
+                console.error('❌ Error verifying farm runs:', err.message);
+                reject(err);
+                return;
+              }
+              
+              console.log(`📊 Farm runs in database: ${result.count}`);
+              
+              this.db.get('SELECT COUNT(*) as count FROM farm_run_steps', (err, result) => {
+                if (err) {
+                  console.error('❌ Error verifying farm run steps:', err.message);
+                  reject(err);
+                  return;
+                }
+                
+                console.log(`📊 Farm run steps in database: ${result.count}`);
+                resolve();
+              });
+            });
           });
         });
       });

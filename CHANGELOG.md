@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **FarmPatch Data Model** - Complete data model for farming patch locations and types
 - **Locations Tab** - New farming locations interface with 2-column layout
 - **Farm Patches API** - Full CRUD API for managing farming patch data
+- **FarmRun Data Model** - New data model for tracking farming run sessions with timestamps and tags
+- **FarmRunStep Data Model** - New data model for individual steps within farm runs with patch and change record references
 
 ### Changed
 - **Database Architecture** - Migrated from static counts to change record-based calculation
@@ -82,6 +84,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `GET /api/farm-patches/meta/locations` - Get unique locations
   - `GET /api/farm-patches/meta/patch-types` - Get unique patch types
 - **Responsive Design** - Mobile-optimized sidebar and navigation
+- **FarmRun Database Schema** - New table with foreign key relationships and indexes:
+  - `farm_runs` table with id, start, end, tags, timestamps
+  - Proper indexing for performance on timestamp and foreign key queries
+  - Automatic timestamp triggers for updated_at fields
+- **FarmRunStep Database Schema** - New table with comprehensive foreign key relationships:
+  - `farm_run_steps` table linking farm runs, patches, and change records
+  - One-to-many relationship: FarmRun → FarmRunStep
+  - One-to-one relationship: SeedChangeRecord → FarmRunStep
+  - Cascade delete constraints for data integrity
+- **FarmRun JavaScript Model** - Complete data model with validation and utility methods:
+  - Timestamp handling with automatic Date conversion
+  - Tag management with add/remove/check functionality
+  - Duration calculation methods (milliseconds, minutes, hours)
+  - Status checking (isActive, isCompleted)
+  - JSON serialization support
+- **FarmRunStep JavaScript Model** - Comprehensive data model with foreign key validation:
+  - Foreign key validation for farm runs, patches, and change records
+  - Timestamp validation ensuring end > start
+  - Duration calculation and status checking methods
+  - Relationship validation and data integrity checks
 
 ## [0.5.0] - 2024-01-XX
 
