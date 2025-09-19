@@ -58,7 +58,8 @@
 }
 
 .tab-content {
-  max-width: 800px;
+  max-width: 80%;
+  width: 80%;
   margin: 2rem auto;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.95);
@@ -190,12 +191,29 @@
   color: #666;
 }
 
-/* Seed Inventory Styles */
-.seeds-container {
+/* Farming Layout Styles */
+.farming-layout {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 2rem;
   margin-top: 2rem;
+  min-height: 600px;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.seeds-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.details-column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .seeds-table-container {
@@ -212,8 +230,10 @@
 
 .table-wrapper {
   overflow-x: auto;
+  overflow-y: visible;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.05);
+  max-width: 100%;
 }
 
 .seeds-table {
@@ -300,16 +320,164 @@
 }
 
 
+/* Enhanced Detail View Styles */
 .seed-details {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   padding: 1.5rem;
+  height: fit-content;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .seed-details h3 {
   color: #667eea;
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.2);
+}
+
+.detail-header h4 {
+  color: #333;
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.seed-type-badge.large {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.detail-card {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.detail-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.detail-card.highlight {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+}
+
+.detail-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.detail-value.level {
+  color: #ffc107;
+}
+
+.detail-value.seeds {
+  color: #667eea;
+}
+
+.detail-value.yields {
+  color: #28a745;
+}
+
+.detail-value.expected {
+  color: #667eea;
+}
+
+.detail-info {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-item label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.info-item span {
+  color: #666;
+  font-weight: 500;
+}
+
+.no-selection {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 400px;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.no-selection-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-selection h3 {
+  color: #667eea;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.no-selection p {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .detail-item {
@@ -391,7 +559,7 @@
     padding: 1.5rem;
   }
 
-  .seeds-container {
+  .farming-layout {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
@@ -414,5 +582,21 @@
   .farming-level-badge {
     font-size: 0.7rem;
     padding: 0.2rem 0.4rem;
+  }
+
+  .detail-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .no-selection {
+    min-height: 300px;
+    padding: 1.5rem;
   }
 }

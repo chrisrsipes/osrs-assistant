@@ -8,6 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Two-Column Layout System** - Implemented dedicated seed list and detail view columns
+- **Enhanced Detail Panel** - Professional card-based detail view with key metrics visualization
+- **Click-Based Selection** - Replaced hover effects with persistent click-based seed selection
+- **No Selection State** - Added helpful placeholder when no seed is selected
+- **Improved Container Sizing** - Increased main content width to 80% for better space utilization
+
+### Changed
+- **Layout Architecture** - Restructured from single table to two-column farming layout (1:1 ratio)
+- **User Interaction Model** - Changed from hover-based to click-based seed selection
+- **Detail View Design** - Enhanced with grid-based card layout for better data presentation
+- **Table Optimization** - Shortened column headers and improved space efficiency
+- **Container Constraints** - Added proper overflow handling and width constraints
+
+### Technical Improvements
+- **CSS Grid Layout** - Implemented responsive two-column grid system
+- **Overflow Management** - Added proper overflow handling to prevent layout breaking
+- **Box Model Optimization** - Enhanced box-sizing and width constraints
+- **Mobile Responsiveness** - Improved mobile layout with stacked columns
+- **Visual Hierarchy** - Better organization of information with color-coded detail cards
+
+## [0.3.0] - 2024-01-XX
+
+### Added
 - **Enhanced Seed Data Model** - Added `seedType` and `requiredFarmingLevel` fields to Seed class
 - **Authentic OSRS Data** - Integrated real Old School RuneScape seed data from official wiki
 - **Professional Table Layout** - Replaced card-based seed display with responsive data table

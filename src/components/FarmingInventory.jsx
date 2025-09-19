@@ -58,101 +58,117 @@ function FarmingInventory() {
         </div>
       </div>
       
-      <div className="seeds-container">
-        <div className="seeds-table-container">
-          <h3>Available Seeds</h3>
-          {seeds.length === 0 ? (
-            <div className="no-data">
-              <p>No seed data available. Please check the data file.</p>
+      <div className="farming-layout">
+        {/* Left Column - Seed List */}
+        <div className="seeds-column">
+          <div className="seeds-table-container">
+            <h3>Available Seeds</h3>
+            {seeds.length === 0 ? (
+              <div className="no-data">
+                <p>No seed data available. Please check the data file.</p>
+              </div>
+            ) : (
+              <div className="table-wrapper">
+                <table className="seeds-table">
+                  <thead>
+                    <tr>
+                      <th>Seed Name</th>
+                      <th>Type</th>
+                      <th>Level</th>
+                      <th>Seeds</th>
+                      <th>Yields</th>
+                      <th>Expected</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {seeds.map(seed => (
+                      <tr 
+                        key={seed.id} 
+                        className={`seed-row ${selectedSeed?.id === seed.id ? 'selected' : ''}`}
+                        onClick={() => handleSeedSelect(seed)}
+                      >
+                        <td className="seed-name">
+                          <strong>{seed.seedName}</strong>
+                        </td>
+                        <td>
+                          <span className="seed-type-badge">{seed.seedType}</span>
+                        </td>
+                        <td>
+                          <span className="farming-level-badge">{seed.requiredFarmingLevel}</span>
+                        </td>
+                        <td className="numeric-cell">{seed.seedCount}</td>
+                        <td className="numeric-cell">{seed.yieldCount}</td>
+                        <td className="numeric-cell expected-yield-cell">{seed.getExpectedYield()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right Column - Detail View */}
+        <div className="details-column">
+          {selectedSeed ? (
+            <div className="seed-details">
+              <h3>Seed Details</h3>
+              
+              <div className="detail-header">
+                <h4>{selectedSeed.seedName}</h4>
+                <span className="seed-type-badge large">{selectedSeed.seedType}</span>
+              </div>
+
+              <div className="detail-grid">
+                <div className="detail-card">
+                  <div className="detail-label">Required Level</div>
+                  <div className="detail-value level">{selectedSeed.requiredFarmingLevel}</div>
+                </div>
+                
+                <div className="detail-card">
+                  <div className="detail-label">Seed Count</div>
+                  <div className="detail-value seeds">{selectedSeed.seedCount}</div>
+                </div>
+                
+                <div className="detail-card">
+                  <div className="detail-label">Yield Count</div>
+                  <div className="detail-value yields">{selectedSeed.yieldCount}</div>
+                </div>
+                
+                <div className="detail-card highlight">
+                  <div className="detail-label">Expected Yield</div>
+                  <div className="detail-value expected">{selectedSeed.getExpectedYield()}</div>
+                </div>
+              </div>
+
+              <div className="detail-info">
+                <div className="info-item">
+                  <label>Yield Name:</label>
+                  <span>{selectedSeed.yieldName}</span>
+                </div>
+                <div className="info-item">
+                  <label>Average per Seed:</label>
+                  <span>{selectedSeed.averageYieldPerSeed}</span>
+                </div>
+                <div className="info-item">
+                  <label>Seed ID:</label>
+                  <span>{selectedSeed.id}</span>
+                </div>
+              </div>
+
+              <div className="summary-section">
+                <h4>Raw Data</h4>
+                <pre>{JSON.stringify(selectedSeed.getSummary(), null, 2)}</pre>
+              </div>
             </div>
           ) : (
-            <div className="table-wrapper">
-              <table className="seeds-table">
-                <thead>
-                  <tr>
-                    <th>Seed Name</th>
-                    <th>Type</th>
-                    <th>Required Level</th>
-                    <th>Seed Count</th>
-                    <th>Yield Name</th>
-                    <th>Yield Count</th>
-                    <th>Expected Yield</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {seeds.map(seed => (
-                    <tr 
-                      key={seed.id} 
-                      className={`seed-row ${selectedSeed?.id === seed.id ? 'selected' : ''}`}
-                      onClick={() => handleSeedSelect(seed)}
-                    >
-                      <td className="seed-name">
-                        <strong>{seed.seedName}</strong>
-                      </td>
-                      <td>
-                        <span className="seed-type-badge">{seed.seedType}</span>
-                      </td>
-                      <td>
-                        <span className="farming-level-badge">Level {seed.requiredFarmingLevel}</span>
-                      </td>
-                      <td className="numeric-cell">{seed.seedCount}</td>
-                      <td>{seed.yieldName}</td>
-                      <td className="numeric-cell">{seed.yieldCount}</td>
-                      <td className="numeric-cell expected-yield-cell">{seed.getExpectedYield()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="no-selection">
+              <div className="no-selection-icon">🌱</div>
+              <h3>Select a Seed</h3>
+              <p>Click on any seed in the table to view detailed information here.</p>
             </div>
           )}
         </div>
-
-        {selectedSeed && (
-          <div className="seed-details">
-            <h3>Seed Details</h3>
-            <div className="detail-item">
-              <label>ID:</label>
-              <span>{selectedSeed.id}</span>
-            </div>
-            <div className="detail-item">
-              <label>Seed Name:</label>
-              <span>{selectedSeed.seedName}</span>
-            </div>
-            <div className="detail-item">
-              <label>Yield Name:</label>
-              <span>{selectedSeed.yieldName}</span>
-            </div>
-            <div className="detail-item">
-              <label>Seed Type:</label>
-              <span>{selectedSeed.seedType}</span>
-            </div>
-            <div className="detail-item">
-              <label>Required Farming Level:</label>
-              <span>{selectedSeed.requiredFarmingLevel}</span>
-            </div>
-            <div className="detail-item">
-              <label>Seed Count:</label>
-              <span>{selectedSeed.seedCount}</span>
-            </div>
-            <div className="detail-item">
-              <label>Yield Count:</label>
-              <span>{selectedSeed.yieldCount}</span>
-            </div>
-            <div className="detail-item">
-              <label>Average Yield per Seed:</label>
-              <span>{selectedSeed.averageYieldPerSeed}</span>
-            </div>
-            <div className="detail-item highlight">
-              <label>Expected Total Yield:</label>
-              <span>{selectedSeed.getExpectedYield()}</span>
-            </div>
-            
-            <div className="summary-section">
-              <h4>Summary</h4>
-              <pre>{JSON.stringify(selectedSeed.getSummary(), null, 2)}</pre>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
