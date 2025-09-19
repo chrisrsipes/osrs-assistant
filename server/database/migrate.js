@@ -14,6 +14,7 @@ const DB_PATH = path.join(__dirname, '..', '..', 'data', 'osrs_skilling_assistan
 const SCHEMA_PATH = path.join(__dirname, 'schema.sql');
 const SEEDS_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_seeds_data.json');
 const CHANGE_RECORDS_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_change_records_data.json');
+const FARM_PATCHES_DATA_PATH = path.join(__dirname, '..', '..', 'data', 'initial_farm_patches_data.json');
 
 class DatabaseMigrator {
   constructor() {
@@ -165,6 +166,48 @@ class DatabaseMigrator {
   }
 
   /**
+   * Seed initial farm patches data
+   */
+  async seedFarmPatches() {
+    return new Promise((resolve, reject) => {
+      console.log('🌱 Seeding initial farm patches data...');
+      
+      const farmPatchesData = JSON.parse(fs.readFileSync(FARM_PATCHES_DATA_PATH, 'utf8'));
+      
+      const stmt = this.db.prepare(`
+        INSERT INTO farm_patches (location, patch_type, patch_discriminator, notes, automatically_protected)
+        VALUES (?, ?, ?, ?, ?)
+      `);
+
+      let completed = 0;
+      const total = farmPatchesData.length;
+
+      farmPatchesData.forEach((patch, index) => {
+        stmt.run([
+          patch.location,
+          patch.patchType,
+          patch.patchDiscriminator,
+          patch.notes || '',
+          patch.automaticallyProtected ? 1 : 0
+        ], (err) => {
+          if (err) {
+            console.error(`❌ Error inserting farm patch ${patch.location} ${patch.patchType}:`, err.message);
+            reject(err);
+            return;
+          }
+          
+          completed++;
+          if (completed === total) {
+            stmt.finalize();
+            console.log(`✅ Seeded ${total} farm patches`);
+            resolve();
+          }
+        });
+      });
+    });
+  }
+
+  /**
    * Verify database state
    */
   async verify() {
@@ -188,7 +231,17 @@ class DatabaseMigrator {
           }
           
           console.log(`📊 Change records in database: ${result.count}`);
-          resolve();
+          
+          this.db.get('SELECT COUNT(*) as count FROM farm_patches', (err, result) => {
+            if (err) {
+              console.error('❌ Error verifying farm patches:', err.message);
+              reject(err);
+              return;
+            }
+            
+            console.log(`📊 Farm patches in database: ${result.count}`);
+            resolve();
+          });
         });
       });
     });
@@ -223,6 +276,7 @@ class DatabaseMigrator {
       await this.migrate();
       await this.seedSeeds();
       await this.seedChangeRecords();
+      await this.seedFarmPatches();
       await this.verify();
       console.log('🎉 Database migration and seeding completed successfully!');
     } catch (error) {

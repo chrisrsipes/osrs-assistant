@@ -119,6 +119,67 @@ class ApiService {
       },
     };
 
+    // Farm Patches API methods
+    this.farmPatches = {
+      // Get all farm patches
+      getAll: async () => {
+        return this.request('/farm-patches');
+      },
+
+      // Get farm patch by ID
+      getById: async (id) => {
+        return this.request(`/farm-patches/${id}`);
+      },
+
+      // Create new farm patch
+      create: async (patchData) => {
+        return this.request('/farm-patches', {
+          method: 'POST',
+          body: JSON.stringify(patchData),
+        });
+      },
+
+      // Update farm patch by ID
+      update: async (id, updateData) => {
+        return this.request(`/farm-patches/${id}`, {
+          method: 'PUT',
+          body: JSON.stringify(updateData),
+        });
+      },
+
+      // Delete farm patch by ID
+      delete: async (id) => {
+        return this.request(`/farm-patches/${id}`, {
+          method: 'DELETE',
+        });
+      },
+
+      // Get farm patches by location
+      getByLocation: async (location) => {
+        return this.request(`/farm-patches/location/${encodeURIComponent(location)}`);
+      },
+
+      // Get farm patches by patch type
+      getByPatchType: async (patchType) => {
+        return this.request(`/farm-patches/type/${encodeURIComponent(patchType)}`);
+      },
+
+      // Search farm patches
+      search: async (searchTerm) => {
+        return this.request(`/farm-patches/search/${encodeURIComponent(searchTerm)}`);
+      },
+
+      // Get unique locations
+      getUniqueLocations: async () => {
+        return this.request('/farm-patches/meta/locations');
+      },
+
+      // Get unique patch types
+      getUniquePatchTypes: async () => {
+        return this.request('/farm-patches/meta/patch-types');
+      },
+    };
+
     // Health check
     this.health = async () => {
       return this.request('/health');

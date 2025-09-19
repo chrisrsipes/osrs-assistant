@@ -25,16 +25,39 @@ CREATE TABLE IF NOT EXISTS seed_change_records (
     FOREIGN KEY (seed_id) REFERENCES seeds (id) ON DELETE CASCADE
 );
 
+-- Farm patches table - stores farming patch locations and types
+CREATE TABLE IF NOT EXISTS farm_patches (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    location TEXT NOT NULL,
+    patch_type TEXT NOT NULL,
+    patch_discriminator TEXT NOT NULL,
+    notes TEXT DEFAULT '',
+    automatically_protected BOOLEAN NOT NULL DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(location, patch_type, patch_discriminator)
+);
+
 -- Create indexes for better performance
 CREATE INDEX IF NOT EXISTS idx_seeds_seed_type ON seeds(seed_type);
 CREATE INDEX IF NOT EXISTS idx_seeds_farming_level ON seeds(required_farming_level);
 CREATE INDEX IF NOT EXISTS idx_change_records_seed_id ON seed_change_records(seed_id);
 CREATE INDEX IF NOT EXISTS idx_change_records_created_date ON seed_change_records(created_date);
 CREATE INDEX IF NOT EXISTS idx_change_records_change_type ON seed_change_records(change_type);
+CREATE INDEX IF NOT EXISTS idx_farm_patches_location ON farm_patches(location);
+CREATE INDEX IF NOT EXISTS idx_farm_patches_patch_type ON farm_patches(patch_type);
+CREATE INDEX IF NOT EXISTS idx_farm_patches_discriminator ON farm_patches(patch_discriminator);
 
 -- Create trigger to update updated_at timestamp on seeds table
 CREATE TRIGGER IF NOT EXISTS update_seeds_timestamp 
     AFTER UPDATE ON seeds
 BEGIN
     UPDATE seeds SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
+END;
+
+-- Create trigger to update updated_at timestamp on farm_patches table
+CREATE TRIGGER IF NOT EXISTS update_farm_patches_timestamp 
+    AFTER UPDATE ON farm_patches
+BEGIN
+    UPDATE farm_patches SET updated_at = CURRENT_TIMESTAMP WHERE id = NEW.id;
 END;

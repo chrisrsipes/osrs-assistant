@@ -25,6 +25,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Farming Sub-Navigation** - Added horizontal sub-navigation for farming features
 - **Activity Dashboard** - New activity log component showing all farming changes
 - **Farming Page Structure** - Organized farming features into dedicated sub-pages
+- **FarmPatch Data Model** - Complete data model for farming patch locations and types
+- **Locations Tab** - New farming locations interface with 2-column layout
+- **Farm Patches API** - Full CRUD API for managing farming patch data
 
 ### Changed
 - **Database Architecture** - Migrated from static counts to change record-based calculation
@@ -38,6 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Navigation Layout** - Converted top tabs to left sidebar with modern design
 - **Farming Default View** - Activity log now shows by default instead of inventory
 - **Database Storage** - All data now persists between server restarts
+- **Farming Navigation** - Added Locations tab between Activity and Inventory
+- **Database Schema** - Added farm_patches table with comprehensive patch data
 
 ### Technical Improvements
 - **Change Record API** - New endpoints for inventory change management:
@@ -60,10 +65,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Data Persistence** - All changes now saved to SQLite database file
 - **Farming Sub-Routes** - Nested routing for farming features:
   - `/farming/activity` - Activity dashboard (default)
+  - `/farming/locations` - Farm patch locations (NEW)
   - `/farming/inventory` - Inventory management
   - `/farming/planning` - Planning tools (coming soon)
   - `/farming/progress` - Progress tracking (coming soon)
   - `/farming/guides` - Farming guides (coming soon)
+- **Farm Patches API** - Complete REST API for patch management:
+  - `GET /api/farm-patches` - Get all farm patches
+  - `GET /api/farm-patches/:id` - Get specific farm patch
+  - `POST /api/farm-patches` - Create new farm patch
+  - `PUT /api/farm-patches/:id` - Update farm patch
+  - `DELETE /api/farm-patches/:id` - Delete farm patch
+  - `GET /api/farm-patches/location/:location` - Get patches by location
+  - `GET /api/farm-patches/type/:patchType` - Get patches by type
+  - `GET /api/farm-patches/search/:term` - Search patches
+  - `GET /api/farm-patches/meta/locations` - Get unique locations
+  - `GET /api/farm-patches/meta/patch-types` - Get unique patch types
 - **Responsive Design** - Mobile-optimized sidebar and navigation
 
 ## [0.5.0] - 2024-01-XX

@@ -1,0 +1,352 @@
+/* Locations Container */
+.locations-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.locations-header {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.locations-header h3 {
+  color: #667eea;
+  margin: 0 0 0.5rem 0;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.locations-header p {
+  color: #666;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Locations Layout */
+.locations-layout {
+  display: flex;
+  gap: 2rem;
+  min-height: 600px;
+}
+
+/* Left Column - Location List */
+.locations-list {
+  width: 300px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.locations-list h4 {
+  color: #333;
+  margin: 0 0 1rem 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #667eea;
+}
+
+.location-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.location-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.location-item:hover {
+  background: rgba(255, 255, 255, 0.9);
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.location-item.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  transform: translateX(8px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.location-name {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.location-arrow {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.location-item:hover .location-arrow {
+  opacity: 1;
+}
+
+/* Right Column - Location Details */
+.location-details {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  padding: 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.location-info {
+  padding: 2rem;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.location-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.location-header h4 {
+  color: #333;
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.patch-count {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Patch Type Groups */
+.patches-by-type {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.patch-type-group {
+  background: rgba(248, 249, 250, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.patch-type-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.patch-type-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.patch-type-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  flex: 1;
+}
+
+.patch-type-count {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Patch List */
+.patch-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.patch-item {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.patch-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(102, 126, 234, 0.3);
+}
+
+.patch-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.patch-discriminator {
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+
+.patch-protection {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.patch-notes {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* No Selection State */
+.no-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  color: #666;
+  padding: 3rem;
+}
+
+.no-selection-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-selection h4 {
+  color: #333;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.5rem;
+  font-weight: 400;
+}
+
+.no-selection p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* No Patches State */
+.no-patches {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  text-align: center;
+  color: #666;
+}
+
+.no-patches-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.no-patches p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+  text-align: center;
+  padding: 3rem 2rem;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+  border-radius: 8px;
+  margin: 1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .locations-layout {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .locations-list {
+    width: 100%;
+  }
+  
+  .patch-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .locations-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .locations-header p {
+    font-size: 1rem;
+  }
+  
+  .locations-list {
+    padding: 1rem;
+  }
+  
+  .location-item {
+    padding: 0.75rem;
+  }
+  
+  .location-name {
+    font-size: 0.9rem;
+  }
+  
+  .location-info {
+    padding: 1rem;
+  }
+  
+  .location-header h4 {
+    font-size: 1.5rem;
+  }
+  
+  .patch-list {
+    grid-template-columns: 1fr;
+  }
+  
+  .patch-item {
+    padding: 0.75rem;
+  }
+}
