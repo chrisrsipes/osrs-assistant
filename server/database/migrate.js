@@ -66,36 +66,46 @@ class DatabaseMigrator {
     return new Promise((resolve, reject) => {
       console.log('🌱 Seeding initial seeds data...');
       
-      const seedsData = JSON.parse(fs.readFileSync(SEEDS_DATA_PATH, 'utf8'));
-      
-      const stmt = this.db.prepare(`
-        INSERT INTO seeds (seed_name, yield_name, seed_type, required_farming_level, average_yield_per_seed)
-        VALUES (?, ?, ?, ?, ?)
-      `);
+      // Clear existing seeds data first
+      this.db.run('DELETE FROM seeds', (err) => {
+        if (err) {
+          console.error('❌ Error clearing seeds:', err.message);
+          reject(err);
+          return;
+        }
+        
+        const seedsData = JSON.parse(fs.readFileSync(SEEDS_DATA_PATH, 'utf8'));
+        
+        const stmt = this.db.prepare(`
+          INSERT INTO seeds (id, seed_name, yield_name, seed_type, required_farming_level, average_yield_per_seed)
+          VALUES (?, ?, ?, ?, ?, ?)
+        `);
 
-      let completed = 0;
-      const total = seedsData.length;
+        let completed = 0;
+        const total = seedsData.length;
 
-      seedsData.forEach((seed, index) => {
-        stmt.run([
-          seed.seedName,
-          seed.yieldName,
-          seed.seedType,
-          seed.requiredFarmingLevel,
-          seed.averageYieldPerSeed
-        ], (err) => {
-          if (err) {
-            console.error(`❌ Error inserting seed ${seed.seedName}:`, err.message);
-            reject(err);
-            return;
-          }
-          
-          completed++;
-          if (completed === total) {
-            stmt.finalize();
-            console.log(`✅ Seeded ${total} seeds`);
-            resolve();
-          }
+        seedsData.forEach((seed, index) => {
+          stmt.run([
+            seed.id,
+            seed.seedName,
+            seed.yieldName,
+            seed.seedType,
+            seed.requiredFarmingLevel,
+            seed.averageYieldPerSeed
+          ], (err) => {
+            if (err) {
+              console.error(`❌ Error inserting seed ${seed.seedName}:`, err.message);
+              reject(err);
+              return;
+            }
+            
+            completed++;
+            if (completed === total) {
+              stmt.finalize();
+              console.log(`✅ Seeded ${total} seeds`);
+              resolve();
+            }
+          });
         });
       });
     });
@@ -183,8 +193,8 @@ class DatabaseMigrator {
         const farmPatchesData = JSON.parse(fs.readFileSync(FARM_PATCHES_DATA_PATH, 'utf8'));
         
         const stmt = this.db.prepare(`
-          INSERT INTO farm_patches (location, patch_type, patch_discriminator, notes, automatically_protected)
-          VALUES (?, ?, ?, ?, ?)
+          INSERT INTO farm_patches (id, location, patch_type, patch_discriminator, notes, automatically_protected)
+          VALUES (?, ?, ?, ?, ?, ?)
         `);
 
         let completed = 0;
@@ -192,6 +202,7 @@ class DatabaseMigrator {
 
         farmPatchesData.forEach((patch, index) => {
           stmt.run([
+            patch.id,
             patch.location,
             patch.patchType,
             patch.patchDiscriminator,

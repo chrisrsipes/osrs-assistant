@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "location": "Ardougne",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -7,6 +8,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 2,
     "location": "Ardougne",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -14,6 +16,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 3,
     "location": "Ardougne",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -21,6 +24,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 4,
     "location": "Ardougne",
     "patchType": "Herb",
     "patchDiscriminator": "1",
@@ -28,6 +32,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 5,
     "location": "Catherby",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -35,6 +40,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 6,
     "location": "Catherby",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -42,6 +48,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 7,
     "location": "Catherby",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -49,6 +56,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 8,
     "location": "Catherby",
     "patchType": "Herb",
     "patchDiscriminator": "1",
@@ -56,6 +64,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 9,
     "location": "Civitas illa Fortis",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -63,6 +72,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 10,
     "location": "Civitas illa Fortis",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -70,6 +80,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 11,
     "location": "Civitas illa Fortis",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -77,6 +88,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 12,
     "location": "Civitas illa Fortis",
     "patchType": "Herb",
     "patchDiscriminator": "1",
@@ -84,6 +96,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 13,
     "location": "Falador",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -91,6 +104,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 14,
     "location": "Falador",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -98,6 +112,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 15,
     "location": "Falador",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -105,6 +120,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 16,
     "location": "Falador",
     "patchType": "Herb",
     "patchDiscriminator": "1",
@@ -112,6 +128,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 17,
     "location": "Farming Guild",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -119,6 +136,7 @@
     "automaticallyProtected": true
   },
   {
+    "id": 18,
     "location": "Farming Guild",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -126,6 +144,7 @@
     "automaticallyProtected": true
   },
   {
+    "id": 19,
     "location": "Farming Guild",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -133,6 +152,7 @@
     "automaticallyProtected": true
   },
   {
+    "id": 20,
     "location": "Farming Guild",
     "patchType": "Herb",
     "patchDiscriminator": "1",
@@ -140,6 +160,7 @@
     "automaticallyProtected": true
   },
   {
+    "id": 21,
     "location": "Kourend",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -147,6 +168,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 22,
     "location": "Kourend",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -154,6 +176,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 23,
     "location": "Kourend",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -161,6 +184,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 24,
     "location": "Kourend",
     "patchType": "Herb",
     "patchDiscriminator": "1",
@@ -168,6 +192,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 25,
     "location": "Morytania",
     "patchType": "Allotment",
     "patchDiscriminator": "north",
@@ -175,6 +200,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 26,
     "location": "Morytania",
     "patchType": "Allotment",
     "patchDiscriminator": "south",
@@ -182,6 +208,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 27,
     "location": "Morytania",
     "patchType": "Flower",
     "patchDiscriminator": "1",
@@ -189,6 +216,7 @@
     "automaticallyProtected": false
   },
   {
+    "id": 28,
     "location": "Morytania",
     "patchType": "Herb",
     "patchDiscriminator": "1",

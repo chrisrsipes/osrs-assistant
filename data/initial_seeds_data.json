@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "seedName": "Spirit Seed",
     "yieldName": "Spirit Tree",
     "seedType": "Special",
@@ -7,6 +8,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 2,
     "seedName": "Celastrus Seed",
     "yieldName": "Celastrus Bark",
     "seedType": "Special",
@@ -14,6 +16,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 3,
     "seedName": "Magic Seed",
     "yieldName": "Magic Root",
     "seedType": "Tree",
@@ -21,6 +24,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 4,
     "seedName": "Yew Seed",
     "yieldName": "Yew Root",
     "seedType": "Tree",
@@ -28,6 +32,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 5,
     "seedName": "Watermelon Seed",
     "yieldName": "Watermelon",
     "seedType": "Allotment",
@@ -35,6 +40,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 6,
     "seedName": "Snape Grass Seed",
     "yieldName": "Snape Grass",
     "seedType": "Allotment",
@@ -42,6 +48,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 7,
     "seedName": "Tarromin Seed",
     "yieldName": "Tarromin",
     "seedType": "Herb",
@@ -49,6 +56,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 8,
     "seedName": "Harralander Seed",
     "yieldName": "Harralander",
     "seedType": "Herb",
@@ -56,6 +64,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 9,
     "seedName": "Ranarr Seed",
     "yieldName": "Ranarr",
     "seedType": "Herb",
@@ -63,6 +72,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 10,
     "seedName": "Irit Seed",
     "yieldName": "Irit",
     "seedType": "Herb",
@@ -70,6 +80,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 11,
     "seedName": "Kwuarm Seed",
     "yieldName": "Kwuarm",
     "seedType": "Herb",
@@ -77,6 +88,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 12,
     "seedName": "Cadantine Seed",
     "yieldName": "Cadantine",
     "seedType": "Herb",
@@ -84,6 +96,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 13,
     "seedName": "Snapdragon Seed",
     "yieldName": "Snapdragon",
     "seedType": "Herb",
@@ -91,6 +104,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 14,
     "seedName": "Lantadyme Seed",
     "yieldName": "Lantadyme",
     "seedType": "Herb",
@@ -98,6 +112,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 15,
     "seedName": "Dwarf Weed Seed",
     "yieldName": "Dwarf Weed",
     "seedType": "Herb",
@@ -105,6 +120,7 @@
     "averageYieldPerSeed": 1
   },
   {
+    "id": 16,
     "seedName": "Torstol Seed",
     "yieldName": "Torstol",
     "seedType": "Herb",
